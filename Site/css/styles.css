@@ -539,3 +539,27 @@ html:not(.js) .howto-step::before{transform:scaleY(1)}
    sistema pede "reduzir movimento". Para voltar a respeitar essa preferência do SO,
    reintroduza aqui um bloco @media (prefers-reduced-motion:reduce) desligando o Lenis
    (app.js) e zerando as transições/reveals. */
+
+/* =====================================================================
+   Refino mobile + acessibilidade (WCAG 2.1 AA)
+   ===================================================================== */
+/* Contraste AA (>=4.5:1 para texto pequeno) */
+.eyebrow{color:#0A5EA8;font-size:.8rem;font-weight:700}         /* azul mais escuro sobre fundo claro */
+.hero .eyebrow,.section--dark .eyebrow,.section--gradient .eyebrow{color:var(--brand-cyan)}
+.footer-bottom,.footer-bottom a{color:#8A9CB0}
+
+/* Alvos de toque >= 44px (WCAG 2.5.5) */
+.btn{min-height:46px}
+.cookie .btn{min-height:48px;padding:.9em 1.4em;font-size:.95rem}
+
+@media (max-width:900px){
+  :root{--pad:20px;--sec:clamp(62px,11vw,90px)}
+  /* área de toque generosa nos links de rodapé e contato */
+  .footer-links{gap:2px}
+  .footer-links a,.footer-contact a{display:inline-block;padding:10px 0;min-height:24px}
+  .contact-info a{display:inline-block;padding:8px 0}
+  /* respiro e alinhamento do banner de cookies */
+  .cookie{left:12px;right:12px;bottom:12px;padding:20px 20px 22px}
+  .cookie-actions{gap:10px}
+  .cookie p{font-size:.95rem;line-height:1.55}
+}
