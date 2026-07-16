@@ -540,6 +540,14 @@ html:not(.js) .howto-step::before{transform:scaleY(1)}
    reintroduza aqui um bloco @media (prefers-reduced-motion:reduce) desligando o Lenis
    (app.js) e zerando as transições/reveals. */
 
+/* ---------- Merlin: botão flutuante na paleta da marca ---------- */
+.merlin-button,
+.merlin-button.merlin-button-popup{
+  background:var(--grad) !important;                 /* ciano -> azul da marca */
+  background-color:var(--brand) !important;
+  box-shadow:0 12px 28px rgba(14,127,214,.42) !important;
+}
+
 /* =====================================================================
    Refino mobile + acessibilidade (WCAG 2.1 AA)
    ===================================================================== */
