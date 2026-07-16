@@ -116,7 +116,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- ============ HERO ============ -->
 <section class="hero" id="inicio">
   <div class="hero-bg"><img src="assets/img/portfolio/obra-03.webp" alt="Planta industrial — tubulações de processo e estruturas metálicas"></div>
-  <div class="container hero-inner">
+  <div class="container">
+   <div class="hero-inner">
     <span class="eyebrow">Engenharia · Planejamento · Gestão Estratégica</span>
     <h1>Da concepção ao comissionamento, <span class="accent">engenharia industrial completa.</span></h1>
     <p class="hero-sub">Soluções técnicas integradas para a indústria, com o rigor de quem entrega do estudo de viabilidade à entrega técnica final. A Inova Flux é o seu braço de engenharia externo, flexível e multidisciplinar.</p>
@@ -132,6 +133,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <span class="hero-chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 2 7l10 5 10-5-10-5z"/><path d="m2 17 10 5 10-5M2 12l10 5 10-5"/></svg>Equipe multidisciplinar</span>
       <span class="hero-chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg>Alocação sob demanda</span>
     </div>
+   </div>
   </div>
 </section>
 
@@ -170,7 +172,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 <!-- ============ PARCERIA ESTRATÉGICA ============ -->
 <section class="section section--dark" id="parceria">
-  <div class="watermark bl"><img src="assets/logos/flow-icon-color.png" alt="" aria-hidden="true"></div>
   <div class="container">
     <div class="sec-head" data-reveal>
       <span class="eyebrow">Parceria Estratégica</span>
@@ -212,6 +213,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- ============ DISCIPLINAS ============ -->
 <section class="section" id="disciplinas">
   <div class="container">
+    <div class="flow-divider" aria-hidden="true" data-reveal>
+      <span class="fd-dot"></span><span class="fd-seg"></span><span class="fd-node"></span><span class="fd-flow"></span>
+    </div>
     <div class="sec-head" data-reveal>
       <span class="eyebrow">Disciplinas de Engenharia</span>
       <h2>Cobertura técnica completa, em qualquer porte de projeto</h2>
@@ -257,16 +261,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </div>
 </section>
 
-<!-- ============ BAND (parallax) ============ -->
-<section class="band" aria-label="Cobertura de engenharia">
-  <div class="band-bg" data-parallax><img src="assets/img/portfolio/obra-02.webp" alt="Montagem de tubulações industriais e válvulas"></div>
-  <div class="container band-inner" data-reveal>
-    <h2>Da viabilidade ao comissionamento, uma engenharia só.</h2>
-    <p>Cobrimos todas as disciplinas e fases do ciclo de projeto, com equipe qualificada e metodologia estruturada de ponta a ponta.</p>
-    <a id="cta-merlin4" class="btn btn--light js-wa" data-wa-btn="orcamento" href="https://wa.me/5517996065834" target="_blank" rel="noopener">Solicitar orçamento</a>
-  </div>
-</section>
-
 <!-- ============ PLANEJAMENTO E GESTÃO DE OBRAS ============ -->
 <section class="section section--surface" id="planejamento">
   <div class="container">
@@ -297,7 +291,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 <!-- ============ SEGURANÇA DO TRABALHO ============ -->
 <section class="section section--dark" id="seguranca">
-  <div class="watermark tr"><img src="assets/logos/flow-icon-color.png" alt="" aria-hidden="true"></div>
   <div class="container">
     <div class="sec-head" data-reveal>
       <span class="eyebrow">Segurança do Trabalho</span>
@@ -349,6 +342,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- ============ PORTFÓLIO / PROJETO EM DESTAQUE ============ -->
 <section class="section section--surface" id="portfolio">
   <div class="container">
+    <div class="flow-divider" aria-hidden="true" data-reveal>
+      <span class="fd-dot"></span><span class="fd-seg"></span><span class="fd-node"></span><span class="fd-flow"></span>
+    </div>
     <div class="sec-head" data-reveal>
       <span class="eyebrow">Projeto em Destaque</span>
       <h2>Planta de Evaporação — Setor Sucroenergético</h2>
@@ -399,10 +395,23 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <h2>Previsibilidade e controle em todas as fases</h2>
       <p class="lead">Metodologia estruturada, com entregáveis claros e marcos de controle — da concepção à entrega técnica.</p>
     </div>
-    <div class="method">
-      <div class="step" data-reveal><div class="n">01</div><h3>Planejamento & Estudos</h3><p>Conceituação, análises iniciais e estudos de viabilidade que definem o rumo técnico do projeto.</p></div>
-      <div class="step" data-reveal><div class="n">02</div><h3>Desenvolvimento</h3><p>Projetos executivos e especificações detalhadas, prontos para a execução.</p></div>
-      <div class="step" data-reveal><div class="n">03</div><h3>Execução</h3><p>Gestão de obras e cronograma, com acompanhamento contínuo e controle de qualidade.</p></div>
+    <div class="timeline" data-reveal>
+      <span class="tl-progress" aria-hidden="true"></span>
+      <div class="tl-step">
+        <span class="tl-dot"><span class="tl-num">01</span></span>
+        <h3>Planejamento & Estudos</h3>
+        <p>Conceituação, análises iniciais e estudos de viabilidade que definem o rumo técnico do projeto.</p>
+      </div>
+      <div class="tl-step">
+        <span class="tl-dot"><span class="tl-num">02</span></span>
+        <h3>Desenvolvimento</h3>
+        <p>Projetos executivos e especificações detalhadas, prontos para a execução.</p>
+      </div>
+      <div class="tl-step">
+        <span class="tl-dot"><span class="tl-num">03</span></span>
+        <h3>Execução</h3>
+        <p>Gestão de obras e cronograma, com acompanhamento contínuo e controle de qualidade.</p>
+      </div>
     </div>
   </div>
 </section>
@@ -410,25 +419,28 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- ============ POR QUE ESCOLHER ============ -->
 <section class="section section--surface" id="porque">
   <div class="container">
+    <div class="flow-divider" aria-hidden="true" data-reveal>
+      <span class="fd-dot"></span><span class="fd-seg"></span><span class="fd-node"></span><span class="fd-flow"></span>
+    </div>
     <div class="sec-head" data-reveal>
       <span class="eyebrow">Por que a Inova Flux</span>
       <h2>Quatro razões para nos ter como parceiro</h2>
     </div>
-    <div class="grid grid-4">
-      <div class="card" data-reveal>
-        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="m12 2 2.4 7.4H22l-6 4.5 2.3 7.1L12 16.6 5.7 21l2.3-7.1-6-4.5h7.6z"/></svg></div>
+    <div class="reasons">
+      <div class="reason" data-reveal>
+        <div class="reason-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="m12 2 2.4 7.4H22l-6 4.5 2.3 7.1L12 16.6 5.7 21l2.3-7.1-6-4.5h7.6z"/></svg></div>
         <h3>Excelência técnica</h3><p>Equipe multidisciplinar qualificada, com domínio das normas e melhores práticas do setor.</p>
       </div>
-      <div class="card" data-reveal>
-        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14a1 1 0 0 1-.8-1.6L14 3l-1 7h7a1 1 0 0 1 .8 1.6L10 21l1-7z"/></svg></div>
+      <div class="reason" data-reveal>
+        <div class="reason-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14a1 1 0 0 1-.8-1.6L14 3l-1 7h7a1 1 0 0 1 .8 1.6L10 21l1-7z"/></svg></div>
         <h3>Flexibilidade</h3><p>Alocação sob demanda, sem os custos fixos de uma equipe interna — ideal para projetos sazonais.</p>
       </div>
-      <div class="card" data-reveal>
-        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 0 20 15.3 15.3 0 0 1 0-20z"/></svg></div>
+      <div class="reason" data-reveal>
+        <div class="reason-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 0 20 15.3 15.3 0 0 1 0-20z"/></svg></div>
         <h3>Cobertura completa</h3><p>Da concepção ao comissionamento, todas as disciplinas e fases do ciclo de projeto.</p>
       </div>
-      <div class="card" data-reveal>
-        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg></div>
+      <div class="reason" data-reveal>
+        <div class="reason-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg></div>
         <h3>Conformidade & segurança</h3><p>Suporte de Segurança do Trabalho integrado, garantindo conformidade normativa em todas as frentes.</p>
       </div>
     </div>
@@ -443,11 +455,24 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <h2>Experiência adaptada a cada segmento industrial</h2>
       <p class="lead">Abordagem multidisciplinar e alocação flexível para demandas pontuais ou projetos de grande porte.</p>
     </div>
-    <div class="sector-row" data-reveal>
-      <span class="sector-chip is-featured"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M6 21V8l6-4 6 4v13"/><path d="M10 21v-5h4v5"/></svg>Sucroenergético / Usinas</span>
-      <span class="sector-chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 20h20M4 20V8l5-3 5 3M14 20V4l6 3v13"/></svg>Indústria em geral</span>
-      <span class="sector-chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 14l3-3 3 3 4-5"/></svg>Retrofit & Ampliações</span>
-      <span class="sector-chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>Projetos sazonais</span>
+    <div class="sectors">
+      <div class="sector is-featured" data-reveal>
+        <div class="sector-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M6 21V8l6-4 6 4v13"/><path d="M10 21v-5h4v5"/></svg></div>
+        <span class="sector-name">Sucroenergético / Usinas</span>
+        <span class="sector-tag">Setor de destaque</span>
+      </div>
+      <div class="sector" data-reveal>
+        <div class="sector-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 20h20M4 20V8l5-3 5 3M14 20V4l6 3v13"/></svg></div>
+        <span class="sector-name">Indústria em geral</span>
+      </div>
+      <div class="sector" data-reveal>
+        <div class="sector-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 14l3-3 3 3 4-5"/></svg></div>
+        <span class="sector-name">Retrofit & Ampliações</span>
+      </div>
+      <div class="sector" data-reveal>
+        <div class="sector-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div>
+        <span class="sector-name">Projetos sazonais</span>
+      </div>
     </div>
   </div>
 </section>
@@ -455,6 +480,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- ============ CONTATO / COMO FUNCIONA ============ -->
 <section class="section section--surface" id="contato">
   <div class="container">
+    <div class="flow-divider" aria-hidden="true" data-reveal>
+      <span class="fd-dot"></span><span class="fd-seg"></span><span class="fd-node"></span><span class="fd-flow"></span>
+    </div>
     <div class="contact-wrap">
       <div class="howto" id="howto">
         <span class="eyebrow">Como funciona</span>
