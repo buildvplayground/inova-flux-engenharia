@@ -101,6 +101,17 @@
     var img = c.querySelector('img');
     return { src: img.getAttribute('src'), cap: img.getAttribute('alt') };
   });
+  // rótulo vertical do accordion (estado recolhido) — gerado a partir do título
+  cards.forEach(function (c) {
+    if (c.querySelector('.pf-vlabel')) return;
+    var t = c.querySelector('.pf-title');
+    if (!t) return;
+    var v = document.createElement('span');
+    v.className = 'pf-vlabel';
+    v.setAttribute('aria-hidden', 'true');
+    v.textContent = t.textContent;
+    c.appendChild(v);
+  });
   var lb = document.getElementById('lightbox');
   var lbImg = document.getElementById('lbImg');
   var lbCap = document.getElementById('lbCaption');

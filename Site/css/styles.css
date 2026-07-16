@@ -274,22 +274,39 @@ html:not(.js) .hero-inner>*{opacity:1;transform:none}
 .method .step h3{margin:.6rem 0 .4rem}
 .method .step p{color:var(--muted);margin:0}
 
-/* ---------- Portfólio ---------- */
-.portfolio-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+/* ---------- Portfólio (accordion horizontal expansível) ---------- */
+.portfolio-accordion{display:flex;gap:14px;height:clamp(420px,56vh,560px)}
 .pf-card{
   display:block;padding:0;border:0;margin:0;font:inherit;color:inherit;background:#0a1826;
-  position:relative;border-radius:var(--r);overflow:hidden;cursor:pointer;aspect-ratio:4/3;width:100%;
-  box-shadow:var(--shadow-sm);transition:box-shadow .5s var(--ease),transform .5s var(--ease);
+  position:relative;border-radius:var(--r);overflow:hidden;cursor:pointer;
+  flex:1 1 0;min-width:0;height:100%;
+  box-shadow:var(--shadow-sm);
+  transition:flex-grow .55s var(--ease-out),box-shadow .5s var(--ease);
 }
-.pf-card:hover{transform:translateY(-4px);box-shadow:var(--shadow)}
-.pf-card img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .9s var(--ease-out)}
-.pf-card:hover img,.pf-card:focus-visible img{transform:scale(1.07)}
-.pf-card::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(4,26,54,0) 38%,rgba(6,15,26,.9));transition:.4s var(--ease)}
-.pf-meta{position:absolute;left:0;right:0;bottom:0;z-index:2;padding:22px;color:#fff;text-align:left;transform:translateY(6px);transition:transform .45s var(--ease-out)}
-.pf-card:hover .pf-meta{transform:translateY(0)}
-.pf-over{font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;color:var(--brand-cyan);font-weight:700}
-.pf-title{font-family:var(--ff-display);font-weight:700;font-size:1.1rem;margin:.2rem 0 .12rem;line-height:1.2}
-.pf-small{font-size:.84rem;color:#B7CADD}
+/* ao passar o mouse na fileira: os não-ativos encolhem; o ativo cresce */
+.portfolio-accordion:hover .pf-card{flex-grow:.62}
+.pf-card:hover,.pf-card:focus-visible,
+.portfolio-accordion:hover .pf-card:hover,
+.portfolio-accordion:hover .pf-card:focus-visible{flex-grow:2.7;box-shadow:var(--shadow-lg)}
+.pf-card img{width:100%;height:100%;object-fit:cover;display:block;transition:transform 1s var(--ease-out)}
+.pf-card:hover img,.pf-card:focus-visible img{transform:scale(1.05)}
+.pf-card::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(4,26,54,0) 32%,rgba(6,15,26,.92));transition:.4s var(--ease)}
+/* rótulo vertical (estado recolhido) */
+.pf-vlabel{
+  position:absolute;left:16px;bottom:22px;z-index:2;color:#fff;font-family:var(--ff-display);
+  font-weight:700;font-size:1.02rem;letter-spacing:.01em;white-space:nowrap;pointer-events:none;
+  writing-mode:vertical-rl;transform:rotate(180deg);
+  opacity:1;transition:opacity .3s var(--ease-out);text-shadow:0 2px 12px rgba(0,0,0,.55)
+}
+.pf-card:hover .pf-vlabel,.pf-card:focus-visible .pf-vlabel{opacity:0}
+/* legenda horizontal (estado expandido) */
+.pf-meta{position:absolute;left:0;right:0;bottom:0;z-index:2;padding:26px;color:#fff;text-align:left;
+  opacity:0;transform:translateY(10px);
+  transition:opacity .4s var(--ease-out) .1s,transform .45s var(--ease-out) .1s}
+.pf-card:hover .pf-meta,.pf-card:focus-visible .pf-meta{opacity:1;transform:none}
+.pf-over{font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;color:var(--brand-cyan);font-weight:700;white-space:nowrap}
+.pf-title{font-family:var(--ff-display);font-weight:700;font-size:1.28rem;margin:.28rem 0 .16rem;line-height:1.15;white-space:nowrap}
+.pf-small{font-size:.86rem;color:#B7CADD;white-space:nowrap}
 .pf-zoom{position:absolute;top:16px;right:16px;z-index:2;width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,.14);backdrop-filter:blur(4px);display:grid;place-items:center;opacity:0;transform:scale(.85);transition:.45s var(--ease-out)}
 .pf-card:hover .pf-zoom,.pf-card:focus-visible .pf-zoom{opacity:1;transform:scale(1)}
 .pf-zoom svg{width:18px;height:18px;color:#fff}
@@ -468,7 +485,13 @@ html:not(.js) .howto-step::before{transform:scaleY(1)}
   .nav-scrim{position:fixed;inset:0;background:rgba(4,10,18,.55);z-index:1050;opacity:0;visibility:hidden;transition:.4s var(--ease)}
   body.nav-open .nav-scrim{opacity:1;visibility:visible}
 
-  .grid-3,.grid-4,.method,.portfolio-grid{grid-template-columns:repeat(2,1fr)}
+  .grid-3,.grid-4,.method{grid-template-columns:repeat(2,1fr)}
+  /* Portfólio: sem hover no toque -> empilha, cada painel expandido com legenda visível */
+  .portfolio-accordion{flex-direction:column;height:auto;gap:14px}
+  .pf-card{flex:none !important;height:240px}
+  .pf-vlabel{display:none}
+  .pf-meta{opacity:1;transform:none;position:absolute}
+  .pf-card img{transform:none !important}
   .stats-grid{grid-template-columns:repeat(2,1fr)}
   /* componentes alternativos */
   .feature-cols{grid-template-columns:1fr}
@@ -489,7 +512,9 @@ html:not(.js) .howto-step::before{transform:scaleY(1)}
 @media (max-width:560px){
   :root{--pad:18px}
   h1{font-size:clamp(2.05rem,8.5vw,2.7rem)}
-  .grid-3,.grid-4,.grid-2,.method,.portfolio-grid,.stats-grid{grid-template-columns:1fr}
+  .grid-3,.grid-4,.grid-2,.method,.stats-grid{grid-template-columns:1fr}
+  .pf-card{height:210px}
+  .pf-zoom{opacity:1;transform:scale(1)}
   .fl-item{grid-template-columns:1fr;gap:10px;padding:24px 0}
   .fl-item p{grid-column:1}
   .fl-ico svg{width:32px;height:32px}
