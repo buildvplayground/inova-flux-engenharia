@@ -29,9 +29,11 @@
   function hideLoader() {
     var l = document.getElementById('loader');
     if (l) l.classList.add('hide');
+    var hero = document.querySelector('.hero');
+    if (hero) hero.classList.add('reveal-in'); // entrada escalonada do hero após o loader
   }
-  window.addEventListener('load', function () { setTimeout(hideLoader, 300); });
-  setTimeout(hideLoader, 3500); // fallback
+  window.addEventListener('load', function () { setTimeout(hideLoader, 260); });
+  setTimeout(hideLoader, 3200); // fallback
 
   /* ---------- Header scrolled ---------- */
   var header = document.getElementById('header');
@@ -56,18 +58,21 @@
   }
   if (burger) burger.addEventListener('click', toggleNav);
   if (scrim) scrim.addEventListener('click', closeNav);
-  document.querySelectorAll('#nav a').forEach(function (a) {
-    a.addEventListener('click', function () { closeNav(); stopMomentum(); });
-  });
+  // Âncoras (inclusive as do menu) são tratadas pelo scroll suave — ver bloco Smooth abaixo.
 
   /* ---------- Reveal on scroll ---------- */
   var revEls = document.querySelectorAll('[data-reveal]');
+  // escalona irmãos do mesmo container (ex.: cards de um grid entram em sequência)
+  revEls.forEach(function (el) {
+    var p = el.parentNode; var i = p.__ri || 0; p.__ri = i + 1;
+    if (i > 0) el.style.transitionDelay = Math.min(i * 0.1, 0.55) + 's';
+  });
   if ('IntersectionObserver' in window && !reduce) {
     var io = new IntersectionObserver(function (entries) {
       entries.forEach(function (e) {
         if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
       });
-    }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+    }, { threshold: 0.1, rootMargin: '0px 0px -10% 0px' });
     revEls.forEach(function (el) { io.observe(el); });
   } else {
     revEls.forEach(function (el) { el.classList.add('in'); });
@@ -168,42 +173,55 @@
   window.addEventListener('resize', updateParallax, { passive: true });
   updateParallax();
 
-  /* ---------- Momentum smooth scroll (tipo Lenis) ---------- */
+  /* ---------- Smooth scroll premium (momentum + âncoras coesas) ---------- */
   var stopMomentum = function () {};
-  (function initMomentum() {
-    if (reduce) return;                                   // respeita reduced-motion
-    if (window.matchMedia('(hover: none)').matches) return; // touch/mobile -> nativo
+  var Smooth = (function () {
+    var touch = window.matchMedia('(hover: none)').matches;
+    var enabled = !reduce && !touch;                       // touch/reduced-motion -> nativo
     var target = window.scrollY, current = window.scrollY, running = false, raf = null;
-    var EASE = 0.09;
+    var EASE = 0.075;                                      // menor = mais glide/inércia (premium)
     function maxScroll() { return Math.max(0, document.documentElement.scrollHeight - window.innerHeight); }
     function clamp(v) { return Math.max(0, Math.min(v, maxScroll())); }
     function loop() {
       var diff = target - current;
       current += diff * EASE;
-      if (Math.abs(diff) < 0.4) {
-        current = target; window.scrollTo(0, Math.round(current)); running = false; return;
-      }
+      if (Math.abs(diff) < 0.35) { current = target; window.scrollTo(0, Math.round(current)); running = false; return; }
       window.scrollTo({ top: current, behavior: 'instant' }); // não conflita com o smooth do CSS
       raf = window.requestAnimationFrame(loop);
     }
-    window.addEventListener('wheel', function (e) {
-      if (document.body.style.overflow === 'hidden') return; // modal/lightbox aberto -> nativo
-      if (e.ctrlKey) return;                                 // pinch-zoom
-      e.preventDefault();
-      var dy = e.deltaY * (e.deltaMode === 1 ? 16 : 1);
-      target = clamp(target + dy);
-      if (!running) { running = true; current = window.scrollY; raf = window.requestAnimationFrame(loop); }
-    }, { passive: false });
-    // ressincroniza quando o scroll vem de outra fonte (teclado, âncora, barra)
-    window.addEventListener('scroll', function () {
-      if (!running) { target = window.scrollY; current = window.scrollY; }
-    }, { passive: true });
-    window.addEventListener('resize', function () { target = clamp(target); });
-    stopMomentum = function () {
-      running = false; if (raf) window.cancelAnimationFrame(raf);
-      target = window.scrollY; current = window.scrollY;
-    };
+    function start() { if (!running) { running = true; current = window.scrollY; raf = window.requestAnimationFrame(loop); } }
+    function to(y) { target = clamp(y); start(); }          // navegação programática (âncoras)
+    function stop() { running = false; if (raf) window.cancelAnimationFrame(raf); target = window.scrollY; current = window.scrollY; }
+    if (enabled) {
+      window.addEventListener('wheel', function (e) {
+        if (document.body.style.overflow === 'hidden') return; // modal/lightbox aberto -> nativo
+        if (e.ctrlKey) return;                                 // pinch-zoom
+        e.preventDefault();
+        var dy = e.deltaY * (e.deltaMode === 1 ? 16 : 1);
+        target = clamp(target + dy); start();
+      }, { passive: false });
+      window.addEventListener('scroll', function () { if (!running) { target = window.scrollY; current = window.scrollY; } }, { passive: true });
+      window.addEventListener('resize', function () { target = clamp(target); });
+    }
+    return { enabled: enabled, to: to, stop: stop };
   })();
+  stopMomentum = Smooth.stop;
+
+  /* ---------- Navegação por âncora (scroll suave e coeso com o momentum) ---------- */
+  var NAV_OFFSET = 82;
+  document.querySelectorAll('a[href^="#"]').forEach(function (a) {
+    a.addEventListener('click', function (e) {
+      var id = a.getAttribute('href');
+      if (!id || id.length < 2) return;
+      var el = document.querySelector(id);
+      if (!el) return;
+      e.preventDefault();
+      closeNav();
+      var y = el.getBoundingClientRect().top + window.scrollY - NAV_OFFSET;
+      if (Smooth.enabled) Smooth.to(y);
+      else window.scrollTo({ top: y, behavior: reduce ? 'auto' : 'smooth' });
+    });
+  });
 
   /* ---------- Cookie banner (LGPD) ---------- */
   var cookie = document.getElementById('cookie');

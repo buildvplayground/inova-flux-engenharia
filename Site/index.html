@@ -15,7 +15,17 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/styles.css">
-<script>document.documentElement.classList.add('js');</script>
+<script>
+  document.documentElement.classList.add('js');
+  /* rede de segurança: se o app.js não carregar, o loader nunca trava a página */
+  setTimeout(function(){
+    var l=document.getElementById('loader');
+    if(l && !l.classList.contains('hide')){
+      l.classList.add('hide');
+      var h=document.querySelector('.hero'); if(h) h.classList.add('reveal-in');
+    }
+  }, 4500);
+</script>
 </head>
 <body>
 
