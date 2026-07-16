@@ -67,7 +67,7 @@
     var p = el.parentNode; var i = p.__ri || 0; p.__ri = i + 1;
     if (i > 0) el.style.transitionDelay = Math.min(i * 0.1, 0.55) + 's';
   });
-  if ('IntersectionObserver' in window && !reduce) {
+  if ('IntersectionObserver' in window) {
     var io = new IntersectionObserver(function (entries) {
       entries.forEach(function (e) {
         if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
@@ -81,7 +81,7 @@
   /* ---------- "Como funciona" (linha + passos escalonados) ---------- */
   var howto = document.getElementById('howto');
   if (howto) {
-    if ('IntersectionObserver' in window && !reduce) {
+    if ('IntersectionObserver' in window) {
       var io2 = new IntersectionObserver(function (entries) {
         entries.forEach(function (e) {
           if (e.isIntersecting) { e.target.classList.add('in'); io2.unobserve(e.target); }
@@ -94,7 +94,6 @@
   /* ---------- Parallax (faixas de imagem) ---------- */
   var parEls = document.querySelectorAll('[data-parallax]');
   function updateParallax() {
-    if (reduce) return;
     for (var i = 0; i < parEls.length; i++) {
       var el = parEls[i], band = el.parentElement;
       var r = band.getBoundingClientRect();
@@ -138,26 +137,30 @@
   function closeLb() {
     lb.classList.remove('open');
     document.body.style.overflow = '';
+    resumeMomentum(); // retoma o Lenis
     if (lastFocus && lastFocus.focus) lastFocus.focus();
   }
-  // some as setas se houver só 1 imagem
-  if (gallery.length <= 1) { lbPrev.style.display = 'none'; lbNext.style.display = 'none'; }
+  // guarda: só liga a lightbox nas páginas que a possuem (index) — evita erro nas subpáginas
+  if (lb) {
+    // some as setas se houver só 1 imagem
+    if (gallery.length <= 1) { lbPrev.style.display = 'none'; lbNext.style.display = 'none'; }
 
-  cards.forEach(function (c) {
-    c.addEventListener('click', function () {
-      openLb(parseInt(c.getAttribute('data-index'), 10) || 0);
+    cards.forEach(function (c) {
+      c.addEventListener('click', function () {
+        openLb(parseInt(c.getAttribute('data-index'), 10) || 0);
+      });
     });
-  });
-  document.getElementById('lbClose').addEventListener('click', closeLb);
-  lbPrev.addEventListener('click', function () { renderLb(cur - 1); });
-  lbNext.addEventListener('click', function () { renderLb(cur + 1); });
-  lb.addEventListener('click', function (e) { if (e.target === lb) closeLb(); });
-  document.addEventListener('keydown', function (e) {
-    if (!lb.classList.contains('open')) return;
-    if (e.key === 'Escape') closeLb();
-    else if (e.key === 'ArrowLeft') renderLb(cur - 1);
-    else if (e.key === 'ArrowRight') renderLb(cur + 1);
-  });
+    document.getElementById('lbClose').addEventListener('click', closeLb);
+    lbPrev.addEventListener('click', function () { renderLb(cur - 1); });
+    lbNext.addEventListener('click', function () { renderLb(cur + 1); });
+    lb.addEventListener('click', function (e) { if (e.target === lb) closeLb(); });
+    document.addEventListener('keydown', function (e) {
+      if (!lb.classList.contains('open')) return;
+      if (e.key === 'Escape') closeLb();
+      else if (e.key === 'ArrowLeft') renderLb(cur - 1);
+      else if (e.key === 'ArrowRight') renderLb(cur + 1);
+    });
+  }
 
   /* ---------- Scroll listeners (header + parallax, throttle rAF) ---------- */
   var ticking = false;
@@ -173,41 +176,27 @@
   window.addEventListener('resize', updateParallax, { passive: true });
   updateParallax();
 
-  /* ---------- Smooth scroll premium (momentum + âncoras coesas) ---------- */
+  /* ---------- Smooth scroll premium (Lenis) ---------- */
+  var lenis = null;
   var stopMomentum = function () {};
-  var Smooth = (function () {
-    var touch = window.matchMedia('(hover: none)').matches;
-    var enabled = !reduce && !touch;                       // touch/reduced-motion -> nativo
-    var target = window.scrollY, current = window.scrollY, running = false, raf = null;
-    var EASE = 0.075;                                      // menor = mais glide/inércia (premium)
-    function maxScroll() { return Math.max(0, document.documentElement.scrollHeight - window.innerHeight); }
-    function clamp(v) { return Math.max(0, Math.min(v, maxScroll())); }
-    function loop() {
-      var diff = target - current;
-      current += diff * EASE;
-      if (Math.abs(diff) < 0.35) { current = target; window.scrollTo(0, Math.round(current)); running = false; return; }
-      window.scrollTo({ top: current, behavior: 'instant' }); // não conflita com o smooth do CSS
-      raf = window.requestAnimationFrame(loop);
-    }
-    function start() { if (!running) { running = true; current = window.scrollY; raf = window.requestAnimationFrame(loop); } }
-    function to(y) { target = clamp(y); start(); }          // navegação programática (âncoras)
-    function stop() { running = false; if (raf) window.cancelAnimationFrame(raf); target = window.scrollY; current = window.scrollY; }
-    if (enabled) {
-      window.addEventListener('wheel', function (e) {
-        if (document.body.style.overflow === 'hidden') return; // modal/lightbox aberto -> nativo
-        if (e.ctrlKey) return;                                 // pinch-zoom
-        e.preventDefault();
-        var dy = e.deltaY * (e.deltaMode === 1 ? 16 : 1);
-        target = clamp(target + dy); start();
-      }, { passive: false });
-      window.addEventListener('scroll', function () { if (!running) { target = window.scrollY; current = window.scrollY; } }, { passive: true });
-      window.addEventListener('resize', function () { target = clamp(target); });
-    }
-    return { enabled: enabled, to: to, stop: stop };
-  })();
-  stopMomentum = Smooth.stop;
+  var resumeMomentum = function () {};
+  if (window.Lenis) {
+    lenis = new window.Lenis({
+      duration: 1.4,   // PESO DO SCROLL: aumente p/ mais "delay" (ex.: 2.0) ou diminua p/ mais leve (ex.: 1.0)
+      easing: function (t) { return Math.min(1, 1.001 - Math.pow(2, -10 * t)); },
+      wheelMultiplier: 1,
+      touchMultiplier: 2,
+      smoothWheel: true // suave no mouse; toque permanece nativo (padrão do Lenis)
+    });
+    (function lenisRaf(time) { lenis.raf(time); window.requestAnimationFrame(lenisRaf); })(0);
+    window.__lenis = lenis; // acesso p/ debug/ajuste fino
+    stopMomentum = function () { lenis.stop(); };
+    resumeMomentum = function () { lenis.start(); };
+    // mantém header/parallax em sincronia com o Lenis
+    lenis.on('scroll', function () { updateHeader(); updateParallax(); });
+  }
 
-  /* ---------- Navegação por âncora (scroll suave e coeso com o momentum) ---------- */
+  /* ---------- Navegação por âncora (coesa com o Lenis) ---------- */
   var NAV_OFFSET = 82;
   document.querySelectorAll('a[href^="#"]').forEach(function (a) {
     a.addEventListener('click', function (e) {
@@ -217,9 +206,8 @@
       if (!el) return;
       e.preventDefault();
       closeNav();
-      var y = el.getBoundingClientRect().top + window.scrollY - NAV_OFFSET;
-      if (Smooth.enabled) Smooth.to(y);
-      else window.scrollTo({ top: y, behavior: reduce ? 'auto' : 'smooth' });
+      if (lenis) lenis.scrollTo(el, { offset: -NAV_OFFSET, duration: 1.6 });
+      else window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - NAV_OFFSET, behavior: 'smooth' });
     });
   });
 
@@ -245,3 +233,19 @@
   if (cr) cr.addEventListener('click', function () { decide('rejected'); });
 
 })();
+
+  const lenis = new Lenis({
+    duration: 1.5, // Duração do scroll em segundos (mais alto = mais lento/delay)
+    easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // Função de aceleração (inércia)
+    wheelMultiplier: 1, // Multiplicador de velocidade do mouse
+    touchMultiplier: 2, // Multiplicador para telas de toque
+    infinite: false,
+  });
+
+  // Loop de animação obrigatório para o Lenis funcionar
+  function raf(time) {
+    lenis.raf(time);
+    requestAnimationFrame(raf);
+  }
+
+  requestAnimationFrame(raf);

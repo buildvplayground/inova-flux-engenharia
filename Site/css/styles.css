@@ -52,6 +52,13 @@ body{
   color:var(--ink);background:var(--bg);overflow-x:hidden;
   -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;
 }
+/* Lenis smooth scroll (evita conflito com html{scroll-behavior:smooth}) */
+html.lenis,html.lenis body{height:auto}
+.lenis.lenis-smooth{scroll-behavior:auto!important}
+.lenis.lenis-smooth [data-lenis-prevent]{overscroll-behavior:contain}
+.lenis.lenis-stopped{overflow:hidden}
+.lenis.lenis-smooth iframe{pointer-events:none}
+
 img{max-width:100%;display:block;height:auto}
 a{color:var(--brand);text-decoration:none}
 h1,h2,h3,h4{font-family:var(--ff-display);color:var(--ink);line-height:1.08;font-weight:700;margin:0 0 .5em}
@@ -427,9 +434,9 @@ html:not(.js) .howto-step::before{transform:scaleY(1)}
   .lb-btn{width:46px;height:46px}
 }
 
-/* ---------- Reduced motion ---------- */
-@media (prefers-reduced-motion:reduce){
-  *{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important;scroll-behavior:auto!important}
-  [data-reveal],.howto-step,.hero-inner>*{opacity:1!important;transform:none!important}
-  .howto-step::before{transform:scaleY(1)}
-}
+/* ---------- Motion ----------
+   As animações (smooth scroll, entradas, micro-interações) são intencionais e fazem
+   parte da experiência premium pedida pelo cliente — por isso rodam mesmo quando o
+   sistema pede "reduzir movimento". Para voltar a respeitar essa preferência do SO,
+   reintroduza aqui um bloco @media (prefers-reduced-motion:reduce) desligando o Lenis
+   (app.js) e zerando as transições/reveals. */
