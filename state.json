@@ -1,0 +1,40 @@
+{
+  "projeto": "Inova Flux Engenharia",
+  "slug": "inova-flux-engenharia",
+  "cliente": "InovaFlux Engenharia, Planejamento e Gestão Estratégica",
+  "tipo": "site institucional one-page",
+  "setor": "Engenharia industrial",
+  "cidade": "Votuporanga - SP",
+  "atualizado_em": "2026-07-16",
+  "hospedagem": "indefinida",
+  "stack": "HTML estatico + CSS + JS (default; Vercel -> Next+Tailwind se definido)",
+  "etapa_atual": 8,
+  "etapas": [
+    { "n": 1, "nome": "Extrair do Drive", "status": "done" },
+    { "n": 2, "nome": "Scaffold + repositorio", "status": "done" },
+    { "n": 3, "nome": "Design system", "status": "done" },
+    { "n": 4, "nome": "Copy estruturada", "status": "done" },
+    { "n": 5, "nome": "Front-end", "status": "done" },
+    { "n": 6, "nome": "Imagens webp + responsivo", "status": "done" },
+    { "n": 7, "nome": "Modulos LGPD + tags", "status": "doing" },
+    { "n": 8, "nome": "Revisao humana + Deploy", "status": "blocked" }
+  ],
+  "pendencias": [
+    { "id": "hospedagem", "prioridade": "alta", "titulo": "Definir hospedagem (Vercel ou Hostinger)", "detalhe": "Site pronto em HTML estatico. Se Vercel, converter para Next+Tailwind; se Hostinger, deploy via FTP." },
+    { "id": "dominio", "prioridade": "alta", "titulo": "Informar dominio", "detalhe": "Definir o dominio de producao para apontar o deploy e o canonical." },
+    { "id": "github", "prioridade": "media", "titulo": "Criar repositorio no GitHub", "detalhe": "gh CLI nao instalado nesta maquina. Criar repo privado dev-buildv-bernardo/inova-flux-engenharia-site e dar push, ou instalar/autenticar gh." },
+    { "id": "deploy-secrets", "prioridade": "alta", "titulo": "Secrets de deploy", "detalhe": "Hostinger: FTP_HOST/FTP_USER/FTP_PASSWORD + DNS. Vercel: importar repo (Framework Next.js) ou vercel --prod." },
+    { "id": "banco-mysql", "prioridade": "media", "titulo": "Banco MySQL + db-config.php", "detalhe": "Backend PHP (Fornecedores/Trabalhe Conosco) precisa de banco. Criar DB e preencher Site/php/db-config.php a partir do .example (nao versionado)." },
+    { "id": "tags", "prioridade": "media", "titulo": "IDs de tags (GTM/GA4/Pixel/Ads)", "detalhe": "Nenhum ID fornecido. Instalar quando o cliente enviar (preferir GTM unico). Consentimento do banner ja emite evento no dataLayer." },
+    { "id": "merlin", "prioridade": "baixa", "titulo": "Merlin (popup)", "detalhe": "Sem ID Merlin. Instalar popup quando fornecido." },
+    { "id": "whatsapp", "prioridade": "baixa", "titulo": "Confirmar WhatsApp comercial", "detalhe": "Usado (17) 9 9606-5834 (wa.me/5517996065834) do material. Confirmar se e o numero de atendimento comercial." },
+    { "id": "portfolio-fotos", "prioridade": "baixa", "titulo": "Fotos de mais obras", "detalhe": "Material atual cobre 1 projeto (planta de evaporacao). Fotos de outras obras ampliariam o portfolio." },
+    { "id": "logo-vetor", "prioridade": "baixa", "titulo": "Logo transparente/SVG", "detalhe": "Logo veio em JPEG com fundo cinza. Versao branca/recolorida foi gerada; ideal receber PNG transparente ou SVG oficial." }
+  ],
+  "links": {
+    "drive": "https://drive.google.com/drive/folders/1QxOQW_Zip7821aj0k7nSgeggQDufO1mt",
+    "repo": null,
+    "preview": null,
+    "dominio": null
+  }
+}
