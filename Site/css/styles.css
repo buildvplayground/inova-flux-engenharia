@@ -236,8 +236,11 @@ html:not(.js) .hero-inner>*{opacity:1;transform:none}
 .split-media .badge strong{display:block;font-family:var(--ff-display);font-size:1.1rem;margin-bottom:2px}
 .stack-list{margin-top:1.8rem;display:grid;gap:1.15rem}
 .stack-list li{display:flex;gap:1rem;align-items:flex-start;color:var(--muted)}
-.stack-list .tick{flex:0 0 auto;width:26px;height:26px;border-radius:6px;background:var(--grad);display:grid;place-items:center;margin-top:2px}
-.stack-list .tick svg{width:15px;height:15px;color:#fff}
+.stack-list .tick{flex:0 0 auto;width:28px;height:28px;border-radius:7px;background:transparent;border:1.6px solid var(--brand);color:var(--brand);display:grid;place-items:center;margin-top:2px;transition:background .35s var(--ease-out),color .35s var(--ease-out),border-color .35s var(--ease-out)}
+.stack-list .tick svg{width:14px;height:14px;color:currentColor}
+.stack-list li:hover .tick{background:var(--brand);border-color:var(--brand);color:#fff}
+.section--dark .stack-list .tick,.section--gradient .stack-list .tick{border-color:var(--brand-cyan);color:var(--brand-cyan)}
+.section--dark .stack-list li:hover .tick,.section--gradient .stack-list li:hover .tick{background:var(--brand-cyan);color:var(--brand-navy)}
 .stack-list b{color:var(--ink);font-weight:600}
 .section--dark .stack-list li,.section--gradient .stack-list li{color:#B9C8D8}
 .section--dark .stack-list b,.section--gradient .stack-list b{color:#fff}
@@ -377,12 +380,17 @@ html:not(.js) .hero-inner>*{opacity:1;transform:none}
 .howto-steps{position:relative;margin-top:.6rem}
 .howto-step{position:relative;display:flex;gap:22px;padding:0 0 30px}
 .howto-step:last-child{padding-bottom:0}
+/* trilho base (fraco) + linha da marca que "desenha" do passo 1 ao 3 */
+.howto-step:not(:last-child)::after{
+  content:"";position:absolute;left:25px;top:26px;width:2px;height:100%;background:var(--line);border-radius:2px;z-index:0
+}
 .howto-step:not(:last-child)::before{
-  content:"";position:absolute;left:25px;top:26px;width:2px;height:100%;
-  background:var(--line);transform:scaleY(0);transform-origin:top;transition:transform .9s var(--ease-out)
+  content:"";position:absolute;left:25px;top:26px;width:2px;height:100%;z-index:1;border-radius:2px;
+  background:linear-gradient(180deg,var(--brand-cyan),var(--brand));
+  transform:scaleY(0);transform-origin:top;transition:transform .8s var(--ease-out)
 }
 .howto.in .howto-step::before{transform:scaleY(1)}
-.howto.in .howto-step:nth-child(2)::before{transition-delay:.25s}
+.howto.in .howto-step:nth-child(2)::before{transition-delay:.55s}
 .howto-num{position:relative;z-index:1;flex:0 0 auto;width:52px;height:52px;border-radius:50%;background:#fff;border:2px solid var(--line);display:grid;place-items:center;font-family:var(--ff-display);font-weight:800;color:var(--muted-2);transition:border-color .6s var(--ease-out),color .6s var(--ease-out),box-shadow .6s var(--ease-out)}
 .howto.in .howto-num{border-color:var(--brand-cyan);color:var(--brand);box-shadow:0 6px 16px rgba(14,127,214,.18)}
 .howto-step h3{margin:.5rem 0 .3rem}

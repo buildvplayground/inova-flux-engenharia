@@ -60,35 +60,26 @@
   if (scrim) scrim.addEventListener('click', closeNav);
   // Âncoras (inclusive as do menu) são tratadas pelo scroll suave — ver bloco Smooth abaixo.
 
-  /* ---------- Reveal on scroll ---------- */
-  var revEls = document.querySelectorAll('[data-reveal]');
+  /* ---------- Reveal on scroll + "Como funciona" (scroll-driven, robusto) ----------
+     Dirigido por scroll (Lenis + nativo) em vez de IntersectionObserver — garante que
+     as entradas suaves e a timeline animem de forma confiável em qualquer ambiente. */
+  var revEls = Array.prototype.slice.call(document.querySelectorAll('[data-reveal]'));
   // escalona irmãos do mesmo container (ex.: cards de um grid entram em sequência)
   revEls.forEach(function (el) {
     var p = el.parentNode; var i = p.__ri || 0; p.__ri = i + 1;
     if (i > 0) el.style.transitionDelay = Math.min(i * 0.1, 0.55) + 's';
   });
-  if ('IntersectionObserver' in window) {
-    var io = new IntersectionObserver(function (entries) {
-      entries.forEach(function (e) {
-        if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
-      });
-    }, { threshold: 0.1, rootMargin: '0px 0px -10% 0px' });
-    revEls.forEach(function (el) { io.observe(el); });
-  } else {
-    revEls.forEach(function (el) { el.classList.add('in'); });
-  }
-
-  /* ---------- "Como funciona" (linha + passos escalonados) ---------- */
   var howto = document.getElementById('howto');
-  if (howto) {
-    if ('IntersectionObserver' in window) {
-      var io2 = new IntersectionObserver(function (entries) {
-        entries.forEach(function (e) {
-          if (e.isIntersecting) { e.target.classList.add('in'); io2.unobserve(e.target); }
-        });
-      }, { threshold: 0.3 });
-      io2.observe(howto);
-    } else { howto.classList.add('in'); }
+  function revealCheck() {
+    var trigger = window.innerHeight * 0.88;
+    for (var i = revEls.length - 1; i >= 0; i--) {
+      if (revEls[i].getBoundingClientRect().top < trigger) {
+        revEls[i].classList.add('in'); revEls.splice(i, 1); // revela uma vez e remove da lista
+      }
+    }
+    if (howto && !howto.classList.contains('in') && howto.getBoundingClientRect().top < trigger) {
+      howto.classList.add('in'); // dispara o "desenho" da timeline (1 → 3)
+    }
   }
 
   /* ---------- Parallax (faixas de imagem) ---------- */
@@ -167,14 +158,17 @@
   function onScroll() {
     if (!ticking) {
       window.requestAnimationFrame(function () {
-        updateHeader(); updateParallax(); ticking = false;
+        updateHeader(); updateParallax(); revealCheck(); ticking = false;
       });
       ticking = true;
     }
   }
   window.addEventListener('scroll', onScroll, { passive: true });
-  window.addEventListener('resize', updateParallax, { passive: true });
+  window.addEventListener('scroll', revealCheck, { passive: true }); // direto (não depende de rAF)
+  window.addEventListener('resize', function () { updateParallax(); revealCheck(); }, { passive: true });
   updateParallax();
+  revealCheck();
+  window.addEventListener('load', revealCheck);
 
   /* ---------- Smooth scroll premium (Lenis) ---------- */
   var lenis = null;
@@ -193,7 +187,7 @@
     stopMomentum = function () { lenis.stop(); };
     resumeMomentum = function () { lenis.start(); };
     // mantém header/parallax em sincronia com o Lenis
-    lenis.on('scroll', function () { updateHeader(); updateParallax(); });
+    lenis.on('scroll', function () { updateHeader(); updateParallax(); revealCheck(); });
   }
 
   /* ---------- Navegação por âncora (coesa com o Lenis) ---------- */
@@ -233,19 +227,3 @@
   if (cr) cr.addEventListener('click', function () { decide('rejected'); });
 
 })();
-
-  const lenis = new Lenis({
-    duration: 1.5, // Duração do scroll em segundos (mais alto = mais lento/delay)
-    easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // Função de aceleração (inércia)
-    wheelMultiplier: 1, // Multiplicador de velocidade do mouse
-    touchMultiplier: 2, // Multiplicador para telas de toque
-    infinite: false,
-  });
-
-  // Loop de animação obrigatório para o Lenis funcionar
-  function raf(time) {
-    lenis.raf(time);
-    requestAnimationFrame(raf);
-  }
-
-  requestAnimationFrame(raf);
