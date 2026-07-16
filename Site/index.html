@@ -26,6 +26,39 @@
     }
   }, 4500);
 </script>
+
+<!-- MERLIN -->
+<script src='https://scripts.gomerlin.com.br/merlin.js'></script>
+<script>
+  Merlin.Popup.initFromSource("https://tools.gomerlin.com.br/chat/5919b336-dd4a-4b05-9ff0-1183dc526f3d");
+
+  function waitForElm(selector) {
+    return new Promise(function(resolve) {
+      if (document.querySelector(selector)) {
+        return resolve(document.querySelector(selector));
+      }
+      var observer = new MutationObserver(function() {
+        if (document.querySelector(selector)) {
+          resolve(document.querySelector(selector));
+          observer.disconnect();
+        }
+      });
+      observer.observe(document.documentElement, { childList: true, subtree: true });
+    });
+  }
+
+  waitForElm('.merlin-button').then(function() {
+    for (var i = 1; i <= 15; i++) {
+      var el = document.getElementById('cta-merlin' + i);
+      if (el) {
+        el.addEventListener('click', function(e) {
+          e.preventDefault();
+          document.querySelector('.merlin-button').click();
+        });
+      }
+    }
+  });
+</script>
 </head>
 <body>
 
