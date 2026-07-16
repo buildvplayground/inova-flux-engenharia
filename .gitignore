@@ -24,6 +24,11 @@ Thumbs.db
 desktop.ini
 *.log
 
+# ── Uploads de currículos (não versionar conteúdo, manter a pasta protegida) ──
+Site/php/uploads/*
+!Site/php/uploads/.htaccess
+
 # ── Tooling local ──
 .claude/
 .preview-cache/
+scripts_img.py

@@ -14,8 +14,14 @@
 - [x] **4. Copy** — estruturada por seção em `Copys/copy-estruturada.md` (do PDF institucional).
 - [x] **5. Front-end** — `Site/` HTML estático: hero c/ imagem, disciplinas, parceria, planejamento, segurança, 3D/BIM, portfólio (lightbox galeria), metodologia, CTA WhatsApp, footer. Requisitos BuildV aplicados.
 - [x] **6. Imagens + responsivo** — fotos → `.webp` (obras + 3D); auditoria de overflow 320→1440px (zero overflow); menu e lightbox testados.
-- [~] **7. Módulos LGPD + tags** — banner de cookies + Política de Privacidade + Fornecedores/Trabalhe Conosco + backend PHP ✅. Tags/Merlin: **pendente** (sem IDs).
-- [ ] **8. Revisão humana + Deploy** — preview local para revisão; publicação em produção **bloqueada** aguardando hospedagem/domínio/secrets.
+- [x] **7. Módulos LGPD + tags** — banner de cookies + Política de Privacidade + Fornecedores/Trabalhe Conosco + backend PHP (PDO, prepared statements, uploads protegidos) ✅. Tags/Merlin: **pendente** (sem IDs).
+- [ ] **8. Revisão humana + Deploy** — 🛑 preview local em http://localhost:4321 para revisão; publicação em produção **bloqueada** aguardando hospedagem/domínio/secrets.
+
+## Validação (medição, sem depender de screenshot)
+- Overflow horizontal **0** em 320 / 375 / 768 / 1366 px (aceite BuildV atingido).
+- Lightbox: abre/navega ‹ › / contador "N/6" / Esc / trava scroll — OK. Menu hambúrguer abre/fecha — OK.
+- Fontes Sora+Inter carregadas; 15 imagens, **0 quebradas**; grids 3-por-linha no desktop.
+- Sem erros no console. Screenshots amplos falham (limitação conhecida do sandbox) → revisão estética fina no preview pelo usuário.
 
 ## Inventário do material (`_raw/`)
 - `logo/logo.jpeg` (1280×960, fundo cinza claro — sem versão transparente/vetor no material).

@@ -16,7 +16,7 @@
     { "n": 4, "nome": "Copy estruturada", "status": "done" },
     { "n": 5, "nome": "Front-end", "status": "done" },
     { "n": 6, "nome": "Imagens webp + responsivo", "status": "done" },
-    { "n": 7, "nome": "Modulos LGPD + tags", "status": "doing" },
+    { "n": 7, "nome": "Modulos LGPD + tags", "status": "done" },
     { "n": 8, "nome": "Revisao humana + Deploy", "status": "blocked" }
   ],
   "pendencias": [
@@ -34,7 +34,7 @@
   "links": {
     "drive": "https://drive.google.com/drive/folders/1QxOQW_Zip7821aj0k7nSgeggQDufO1mt",
     "repo": null,
-    "preview": null,
+    "preview": "http://localhost:4321",
     "dominio": null
   }
 }
