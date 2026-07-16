@@ -27,14 +27,10 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <link rel="stylesheet" href="css/styles.css">
 <script>
   document.documentElement.classList.add('js');
-  /* rede de segurança: se o app.js não carregar, o loader nunca trava a página */
+  /* rede de segurança: garante a entrada do hero mesmo se o app.js não carregar */
   setTimeout(function(){
-    var l=document.getElementById('loader');
-    if(l && !l.classList.contains('hide')){
-      l.classList.add('hide');
-      var h=document.querySelector('.hero'); if(h) h.classList.add('reveal-in');
-    }
-  }, 4500);
+    var h=document.querySelector('.hero'); if(h) h.classList.add('reveal-in');
+  }, 2500);
 </script>
 
 <!-- MERLIN -->
@@ -75,14 +71,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KP6CF49C"
 height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- /BuildV: GTM (noscript) -->
-
-<!-- ============ LOADER ============ -->
-<div id="loader" aria-hidden="true">
-  <div class="loader-mark">
-    <img src="assets/logos/logo-white.png" alt="">
-    <div class="loader-bar"></div>
-  </div>
-</div>
 
 <!-- ============ HEADER ============ -->
 <header class="header" id="header">

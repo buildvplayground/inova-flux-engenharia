@@ -25,15 +25,14 @@
 
   var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  /* ---------- Loader ---------- */
-  function hideLoader() {
-    var l = document.getElementById('loader');
-    if (l) l.classList.add('hide');
-    var hero = document.querySelector('.hero');
-    if (hero) hero.classList.add('reveal-in'); // entrada escalonada do hero após o loader
+  /* ---------- Entrada do hero (imagem + conteúdo), sem loader ---------- */
+  var heroEl = document.querySelector('.hero');
+  if (heroEl) {
+    // espera dois frames para o estado inicial pintar, garantindo transição/animação suave
+    requestAnimationFrame(function () {
+      requestAnimationFrame(function () { heroEl.classList.add('reveal-in'); });
+    });
   }
-  window.addEventListener('load', function () { setTimeout(hideLoader, 260); });
-  setTimeout(hideLoader, 3200); // fallback
 
   /* ---------- Header scrolled ---------- */
   var header = document.getElementById('header');
