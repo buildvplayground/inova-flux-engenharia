@@ -342,6 +342,12 @@ body.nav-open .burger span{background:#fff!important}
 .cookie-actions{display:flex;gap:12px;flex-wrap:wrap}
 .cookie .btn{padding:.7em 1.3em;font-size:.92rem}
 
+/* ---------- No-JS failsafe (conteúdo sempre visível se o JS falhar) ---------- */
+html:not(.js) #loader{display:none}
+html:not(.js) [data-reveal]{opacity:1;transform:none}
+html:not(.js) .howto-step{opacity:1;transform:none}
+html:not(.js) .howto .track::after{transform:scaleY(1)}
+
 /* ---------- Reveal ---------- */
 [data-reveal]{opacity:0;transform:translateY(26px);transition:opacity .7s var(--ease),transform .7s var(--ease)}
 [data-reveal].in{opacity:1;transform:none}
