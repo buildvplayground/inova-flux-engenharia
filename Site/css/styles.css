@@ -317,6 +317,61 @@ html:not(.js) .hero-inner>*{opacity:1;transform:none}
 .sector-chip.is-featured{background:var(--ink);color:#fff;border-color:var(--ink)}
 .sector-chip.is-featured svg{color:var(--brand-cyan)}
 
+/* =====================================================================
+   Motivos da marca (símbolo "flow") + componentes alternativos
+   ===================================================================== */
+/* conteúdo sempre acima dos watermarks */
+.section > .container{position:relative;z-index:1}
+/* seções com watermark precisam recortar o excedente (evita overflow horizontal) */
+#parceria,#seguranca{overflow:hidden}
+.watermark{position:absolute;z-index:0;pointer-events:none;user-select:none;opacity:.055;width:min(46%,520px);line-height:0}
+.watermark img{width:100%;display:block}
+.watermark.tr{top:-3%;right:-2%;transform:rotate(8deg)}
+.watermark.bl{bottom:-5%;left:-3%;transform:rotate(-6deg)}
+.section--dark .watermark,.section--gradient .watermark{opacity:.09}
+
+/* divisor com o símbolo da marca */
+.brand-divider{display:flex;align-items:center;gap:22px;max-width:420px;margin:0 auto clamp(38px,5vw,58px)}
+.brand-divider::before,.brand-divider::after{content:"";height:1px;flex:1;background:var(--line)}
+.section--dark .brand-divider::before,.section--dark .brand-divider::after{background:rgba(255,255,255,.14)}
+.brand-divider img{width:44px;height:auto;opacity:.95}
+
+/* Disciplinas — cards com canto cortado (assinatura industrial) + índice fantasma */
+#disciplinas .card{clip-path:polygon(0 0,calc(100% - 22px) 0,100% 22px,100% 100%,0 100%)}
+#disciplinas .card:hover{box-shadow:none;filter:drop-shadow(0 14px 26px rgba(9,20,35,.13))}
+#disciplinas .card .num-ghost{position:absolute;right:16px;bottom:6px;z-index:0;font-family:var(--ff-display);font-weight:800;font-size:3.4rem;line-height:1;color:var(--surface-2);transition:color .5s var(--ease);pointer-events:none}
+#disciplinas .card:hover .num-ghost{color:#DCEEFA}
+#disciplinas .card .icon,#disciplinas .card h3,#disciplinas .card p{position:relative;z-index:1}
+
+/* Planejamento — lista editorial (linhas com hairline, sem "caixas") */
+.feature-list{display:grid;gap:0}
+.fl-item{display:grid;grid-template-columns:60px 1fr 2fr;gap:clamp(18px,3vw,44px);align-items:start;padding:30px 0;border-top:1px solid var(--line);transition:background .4s var(--ease)}
+.fl-item:first-child{border-top:0}
+.fl-item:hover{background:linear-gradient(90deg,rgba(18,181,240,.04),transparent 70%)}
+.fl-ico{color:var(--brand);transition:color .4s var(--ease)}
+.fl-ico svg{width:38px;height:38px;stroke-width:1.5}
+.fl-item:hover .fl-ico{color:var(--brand-cyan)}
+.fl-item h3{margin:0;font-size:1.2rem;padding-top:2px}
+.fl-item p{margin:0;color:var(--muted)}
+
+/* Segurança — faixa escura com colunas divididas por hairline (sem cards) */
+.feature-cols{display:grid;grid-template-columns:repeat(3,1fr);gap:0}
+.fc{padding:6px clamp(24px,3vw,42px)}
+.fc + .fc{border-left:1px solid rgba(255,255,255,.12)}
+.fc:first-child{padding-left:0}.fc:last-child{padding-right:0}
+.fc-ico{color:var(--brand-cyan);margin-bottom:18px}
+.fc-ico svg{width:38px;height:38px;stroke-width:1.5}
+.fc h3{color:#fff;margin:0 0 .5rem}
+.fc p{color:#A9BBCE;margin:0}
+
+/* símbolo decorativo dentro do card de contato */
+.card-mark{position:absolute;right:-26px;bottom:-26px;width:190px;opacity:.10;z-index:0;pointer-events:none}
+.card-mark img{width:100%;display:block}
+.contact-card > *{position:relative;z-index:1}
+
+/* símbolo no rodapé */
+.f-mark{width:40px;opacity:.85;margin-bottom:14px}
+
 /* ---------- Contato / Como funciona ---------- */
 .contact-wrap{display:grid;grid-template-columns:1.05fr .95fr;gap:clamp(36px,5vw,72px);align-items:center}
 .howto-steps{position:relative;margin-top:.6rem}
@@ -409,6 +464,14 @@ html:not(.js) .howto-step::before{transform:scaleY(1)}
 
   .grid-3,.grid-4,.method,.portfolio-grid{grid-template-columns:repeat(2,1fr)}
   .stats-grid{grid-template-columns:repeat(2,1fr)}
+  /* componentes alternativos */
+  .feature-cols{grid-template-columns:1fr}
+  .fc{padding:26px 0!important}
+  .fc + .fc{border-left:0;border-top:1px solid rgba(255,255,255,.12)}
+  .fc:first-child{padding-top:0!important}
+  .fl-item{grid-template-columns:52px 1fr;gap:16px 20px}
+  .fl-item p{grid-column:2}
+  .watermark{width:62%;opacity:.05}
   .stat:nth-child(3){border-left:0}
   .stat:nth-child(n+3){border-top:1px solid var(--line)}
   .split,.contact-wrap,.ps-grid{grid-template-columns:1fr;gap:36px}
@@ -421,6 +484,11 @@ html:not(.js) .howto-step::before{transform:scaleY(1)}
   :root{--pad:18px}
   h1{font-size:clamp(2.05rem,8.5vw,2.7rem)}
   .grid-3,.grid-4,.grid-2,.method,.portfolio-grid,.stats-grid{grid-template-columns:1fr}
+  .fl-item{grid-template-columns:1fr;gap:10px;padding:24px 0}
+  .fl-item p{grid-column:1}
+  .fl-ico svg{width:32px;height:32px}
+  .watermark{width:72%}
+  #disciplinas .card .num-ghost{font-size:2.8rem}
   .stat{border-left:0;border-top:1px solid var(--line);padding:26px 8px}
   .stat:first-child{border-top:0}
   .hero-actions{flex-direction:column;align-items:stretch}
