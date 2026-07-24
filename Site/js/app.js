@@ -94,42 +94,36 @@
     }
   }
 
-  /* ---------- Lightbox (galeria do projeto) ---------- */
-  var cards = Array.prototype.slice.call(document.querySelectorAll('.pf-card'));
-  var gallery = cards.map(function (c) {
-    var img = c.querySelector('img');
-    return { src: img.getAttribute('src'), cap: img.getAttribute('alt') };
-  });
-  // rótulo vertical do accordion (estado recolhido) — gerado a partir do título
-  cards.forEach(function (c) {
-    if (c.querySelector('.pf-vlabel')) return;
-    var t = c.querySelector('.pf-title');
-    if (!t) return;
-    var v = document.createElement('span');
-    v.className = 'pf-vlabel';
-    v.setAttribute('aria-hidden', 'true');
-    v.textContent = t.textContent;
-    c.appendChild(v);
-  });
+  /* ---------- Lightbox (galerias) ----------
+     Suporta duas fontes: o "Projeto em Destaque" (accordion .pf-card, galeria única)
+     e o "Portfólio de Projetos" (.proj-card, uma galeria por projeto via data-gallery). */
   var lb = document.getElementById('lightbox');
   var lbImg = document.getElementById('lbImg');
   var lbCap = document.getElementById('lbCaption');
   var lbCount = document.getElementById('lbCounter');
   var lbPrev = document.getElementById('lbPrev');
   var lbNext = document.getElementById('lbNext');
+  var G = [];            // galeria atual: [{src, cap}]
   var cur = 0;
   var lastFocus = null;
 
   function renderLb(i) {
-    cur = (i + gallery.length) % gallery.length;
-    lbImg.setAttribute('src', gallery[cur].src);
-    lbImg.setAttribute('alt', gallery[cur].cap);
-    lbCap.textContent = gallery[cur].cap;
-    lbCount.textContent = (cur + 1) + ' / ' + gallery.length;
+    if (!G.length) return;
+    cur = (i + G.length) % G.length;
+    lbImg.setAttribute('src', G[cur].src);
+    lbImg.setAttribute('alt', G[cur].cap || '');
+    lbCap.textContent = G[cur].cap || '';
+    lbCount.textContent = (cur + 1) + ' / ' + G.length;
+    var multi = G.length > 1;
+    lbPrev.style.display = multi ? '' : 'none';
+    lbNext.style.display = multi ? '' : 'none';
+    lbCount.style.display = multi ? '' : 'none';
   }
-  function openLb(i) {
+  function openLb(list, i) {
+    if (!lb || !list || !list.length) return;
+    G = list;
     lastFocus = document.activeElement;
-    renderLb(i);
+    renderLb(i || 0);
     lb.classList.add('open');
     document.body.style.overflow = 'hidden'; // trava scroll + sinaliza p/ o momentum
     stopMomentum();
@@ -141,16 +135,41 @@
     resumeMomentum(); // retoma o Lenis
     if (lastFocus && lastFocus.focus) lastFocus.focus();
   }
+
   // guarda: só liga a lightbox nas páginas que a possuem (index) — evita erro nas subpáginas
   if (lb) {
-    // some as setas se houver só 1 imagem
-    if (gallery.length <= 1) { lbPrev.style.display = 'none'; lbNext.style.display = 'none'; }
-
-    cards.forEach(function (c) {
+    // (A) Projeto em destaque — accordion .pf-card (uma galeria compartilhada)
+    var pfCards = Array.prototype.slice.call(document.querySelectorAll('.pf-card'));
+    var pfGallery = pfCards.map(function (c) {
+      var img = c.querySelector('img');
+      return { src: img.getAttribute('src'), cap: img.getAttribute('alt') };
+    });
+    // rótulo vertical do accordion (estado recolhido) — gerado a partir do título
+    pfCards.forEach(function (c) {
+      if (!c.querySelector('.pf-vlabel')) {
+        var t = c.querySelector('.pf-title');
+        if (t) {
+          var v = document.createElement('span');
+          v.className = 'pf-vlabel';
+          v.setAttribute('aria-hidden', 'true');
+          v.textContent = t.textContent;
+          c.appendChild(v);
+        }
+      }
       c.addEventListener('click', function () {
-        openLb(parseInt(c.getAttribute('data-index'), 10) || 0);
+        openLb(pfGallery, parseInt(c.getAttribute('data-index'), 10) || 0);
       });
     });
+
+    // (B) Portfólio de projetos — .proj-card (galeria própria por projeto)
+    Array.prototype.slice.call(document.querySelectorAll('.proj-card')).forEach(function (c) {
+      var title = c.getAttribute('data-title') || '';
+      var list = (c.getAttribute('data-gallery') || '').split('||').filter(Boolean).map(function (src) {
+        return { src: src, cap: title };
+      });
+      c.addEventListener('click', function () { openLb(list, 0); });
+    });
+
     document.getElementById('lbClose').addEventListener('click', closeLb);
     lbPrev.addEventListener('click', function () { renderLb(cur - 1); });
     lbNext.addEventListener('click', function () { renderLb(cur + 1); });
@@ -162,6 +181,32 @@
       else if (e.key === 'ArrowRight') renderLb(cur + 1);
     });
   }
+
+  /* ---------- Filtro do portfólio de projetos ---------- */
+  (function () {
+    var chips = Array.prototype.slice.call(document.querySelectorAll('.proj-chip'));
+    var grid = document.getElementById('projGrid');
+    if (!chips.length || !grid) return;
+    var empty = document.getElementById('projEmpty');
+    var projCards = Array.prototype.slice.call(grid.querySelectorAll('.proj-card'));
+    function applyFilter(f) {
+      var shown = 0;
+      projCards.forEach(function (c) {
+        var match = (f === 'all' || c.getAttribute('data-cat') === f);
+        c.classList.toggle('is-hidden', !match);
+        if (match) { c.classList.add('in'); shown++; } // garante visibilidade após interação
+      });
+      if (empty) empty.hidden = shown !== 0;
+    }
+    chips.forEach(function (chip) {
+      chip.addEventListener('click', function () {
+        chips.forEach(function (x) { x.classList.remove('is-active'); x.setAttribute('aria-pressed', 'false'); });
+        chip.classList.add('is-active');
+        chip.setAttribute('aria-pressed', 'true');
+        applyFilter(chip.getAttribute('data-filter'));
+      });
+    });
+  })();
 
   /* ---------- Scroll listeners (header + parallax, throttle rAF) ---------- */
   var ticking = false;
