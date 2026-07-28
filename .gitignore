@@ -32,3 +32,4 @@ Site/php/uploads/*
 .claude/
 .preview-cache/
 scripts_img.py
+preview-server.js
