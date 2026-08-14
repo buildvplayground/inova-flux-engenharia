@@ -1,0 +1,52 @@
+{
+  "projeto": "Inova Flux Engenharia",
+  "slug": "inova-flux-engenharia",
+  "cliente": "InovaFlux Engenharia, Planejamento e Gestao Estrategica",
+  "tipo": "site institucional one-page",
+  "setor": "Engenharia industrial",
+  "cidade": "Votuporanga - SP",
+  "atualizado_em": "2026-07-28",
+  "hospedagem": "indefinida",
+  "stack": "HTML estatico + CSS + JS (default; Vercel -> Next+Tailwind se definido)",
+  "etapa_atual": 8,
+  "etapas": [
+    { "n": 1, "nome": "Extrair do Drive", "status": "done" },
+    { "n": 2, "nome": "Scaffold + repositorio", "status": "done" },
+    { "n": 3, "nome": "Design system", "status": "done" },
+    { "n": 4, "nome": "Copy estruturada", "status": "done" },
+    { "n": 5, "nome": "Front-end", "status": "done" },
+    { "n": 6, "nome": "Imagens webp + responsivo", "status": "done" },
+    { "n": 7, "nome": "Modulos LGPD + tags", "status": "done" },
+    { "n": "7b", "nome": "Portfolio de projetos (12 obras, grade filtravel)", "status": "done" },
+    { "n": 8, "nome": "Revisao humana + Deploy", "status": "blocked" }
+  ],
+  "portfolio": {
+    "destaque": { "titulo": "Planta de Evaporacao - Setor Sucroenergetico", "fotos": 6, "componente": "accordion .pf-card" },
+    "projetos": { "total": 12, "imagens_webp": 49, "componente": "grade filtravel .proj-card", "teto_por_card": 6 },
+    "filtros": { "sucro": 5, "bim": 4, "insp": 2, "civil": 1 },
+    "drive_origem": "https://drive.google.com/drive/folders/1HioYtmCdhHgTJLqsj4mCZFaugRPMXNGm",
+    "verificado_em": "2026-07-28: 55 referencias de imagem no index.html, 0 quebradas, 0 arquivos orfaos"
+  },
+  "pendencias": [
+    { "id": "hospedagem", "prioridade": "alta", "titulo": "Definir hospedagem (Vercel ou Hostinger)", "detalhe": "Site pronto em HTML estatico. Se Vercel, converter para Next+Tailwind; se Hostinger, deploy via FTP." },
+    { "id": "dominio", "prioridade": "alta", "titulo": "Informar dominio", "detalhe": "Definir o dominio de producao para apontar o deploy e o canonical." },
+    { "id": "deploy-secrets", "prioridade": "alta", "titulo": "Secrets de deploy", "detalhe": "Hostinger: FTP_HOST/FTP_USER/FTP_PASSWORD + DNS. Vercel: importar repo (Framework Next.js) ou vercel --prod." },
+    { "id": "github", "prioridade": "media", "titulo": "Criar repositorio no GitHub", "detalhe": "gh CLI nao instalado nesta maquina. Criar repo privado dev-buildv-bernardo/inova-flux-engenharia-site e dar push, ou instalar/autenticar gh." },
+    { "id": "banco-mysql", "prioridade": "media", "titulo": "Banco MySQL + db-config.php", "detalhe": "Backend PHP (Fornecedores/Trabalhe Conosco) precisa de banco. Criar DB e preencher Site/php/db-config.php a partir do .example (nao versionado)." },
+    { "id": "tags", "prioridade": "media", "titulo": "GTM instalado - configurar tags/consentimento no painel", "detalhe": "GTM-KP6CF49C instalado nas 3 paginas (head + noscript), container verificado carregando. GA4/Pixel/Ads devem ser gerenciados dentro do GTM. Consentimento: o banner de cookies ja emite o evento 'cookie_consent' (com var 'consent') no dataLayer - usar como gatilho no GTM (ou configurar Consent Mode)." },
+    { "id": "reduced-motion", "prioridade": "baixa", "titulo": "prefers-reduced-motion desligado (decisao de projeto)", "detalhe": "Animacoes rodam mesmo com 'reduzir movimento' ligado no SO - unico desvio consciente de acessibilidade. Para reverter: bloco @media (prefers-reduced-motion:reduce) em styles.css (ver nota na linha 607) + usar a var 'reduce' de app.js:26 para desligar o Lenis." },
+    { "id": "pf-over-320", "prioridade": "baixa", "titulo": "Overline do accordion cortado em 320px", "detalhe": "No 'Projeto em Destaque' (.pf-card), o .pf-over 'Sucroenergetico - Votuporanga-SP' mede 311px dentro de um card de 280px e e cortado pelo overflow:hidden do card em telas de 320px. Nao gera overflow da pagina (fica clipado). Medido em 2026-07-28. Correcao: reduzir font-size/letter-spacing do .pf-over ou permitir quebra em 2 linhas no breakpoint 560px." },
+    { "id": "portfolio-galerias", "prioridade": "baixa", "titulo": "Ampliar galerias de 3 projetos", "detalhe": "Teto de 6 fotos por card. Tres projetos ficaram abaixo do proprio material disponivel: projeto-3d-moenda (2 fontes, 1 no site), baldrame-residencial (3/2), duplo-bloqueio-evaporacao (5/3). Fontes em imagens/novas-imagens-inovaflux/." },
+    { "id": "merlin", "prioridade": "baixa", "titulo": "Merlin (popup) - instalado e funcionando", "detalhe": "Popup Merlin no <head> de index/fornecedores/politica. Correcao: Merlin.Popup.initFromSource exige a fonte POPUP (endpoint /popup/<id>/launch.json), nao a URL /chat/. Passamos o ID puro 5919b336... e o botao flutuante (.merlin-button) renderiza. CTAs seguem no WhatsApp (coexistindo)." },
+    { "id": "whatsapp", "prioridade": "baixa", "titulo": "Confirmar WhatsApp comercial", "detalhe": "Usado (17) 9 9606-5834 (wa.me/5517996065834) do material. Confirmar se e o numero de atendimento comercial." },
+    { "id": "logo-vetor", "prioridade": "baixa", "titulo": "Logo transparente/SVG", "detalhe": "Logo veio em JPEG com fundo cinza. Versao branca/recolorida foi gerada; ideal receber PNG transparente ou SVG oficial." }
+  ],
+  "links": {
+    "drive": "https://drive.google.com/drive/folders/1QxOQW_Zip7821aj0k7nSgeggQDufO1mt",
+    "drive_projetos": "https://drive.google.com/drive/folders/1HioYtmCdhHgTJLqsj4mCZFaugRPMXNGm",
+    "repo": null,
+    "preview": "http://localhost:4321",
+    "preview_cmd": "node preview-server.js",
+    "dominio": null
+  }
+}

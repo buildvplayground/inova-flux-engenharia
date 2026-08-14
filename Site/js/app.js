@@ -1,0 +1,284 @@
+/* =====================================================================
+   Inova Flux Engenharia — app.js
+   ===================================================================== */
+(function () {
+  'use strict';
+
+  /* ---------- WhatsApp (número centralizado) ---------- */
+  var WA_NUMBER = '5517996065834'; // (17) 9 9606-5834 — trocar aqui se mudar
+  var WA_MSG = {
+    orcamento: 'Olá! Gostaria de solicitar um orçamento de engenharia com a Inova Flux.',
+    disciplinas: 'Olá! Gostaria de falar com um engenheiro sobre as disciplinas de projeto.',
+    default: 'Olá! Gostaria de mais informações sobre os serviços da Inova Flux.'
+  };
+  function waHref(key) {
+    var msg = WA_MSG[key] || WA_MSG.default;
+    return 'https://wa.me/' + WA_NUMBER + '?text=' + encodeURIComponent(msg);
+  }
+  document.querySelectorAll('.js-wa').forEach(function (el) {
+    el.setAttribute('href', waHref(el.getAttribute('data-wa-btn')));
+  });
+
+  /* ---------- Ano no footer ---------- */
+  var yearEl = document.getElementById('year');
+  if (yearEl) yearEl.textContent = String(new Date().getFullYear());
+
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ---------- Entrada do hero (imagem + conteúdo), sem loader ---------- */
+  var heroEl = document.querySelector('.hero');
+  if (heroEl) {
+    // espera dois frames para o estado inicial pintar, garantindo transição/animação suave
+    requestAnimationFrame(function () {
+      requestAnimationFrame(function () { heroEl.classList.add('reveal-in'); });
+    });
+  }
+
+  /* ---------- Header scrolled ---------- */
+  var header = document.getElementById('header');
+  function updateHeader() {
+    if (window.scrollY > 40) header.classList.add('scrolled');
+    else header.classList.remove('scrolled');
+  }
+  updateHeader();
+
+  /* ---------- Mobile nav ---------- */
+  var burger = document.getElementById('burger');
+  var scrim = document.getElementById('navScrim');
+  function closeNav() {
+    document.body.classList.remove('nav-open');
+    burger.setAttribute('aria-expanded', 'false');
+    burger.setAttribute('aria-label', 'Abrir menu');
+  }
+  function toggleNav() {
+    var open = document.body.classList.toggle('nav-open');
+    burger.setAttribute('aria-expanded', open ? 'true' : 'false');
+    burger.setAttribute('aria-label', open ? 'Fechar menu' : 'Abrir menu');
+  }
+  if (burger) burger.addEventListener('click', toggleNav);
+  if (scrim) scrim.addEventListener('click', closeNav);
+  // Âncoras (inclusive as do menu) são tratadas pelo scroll suave — ver bloco Smooth abaixo.
+
+  /* ---------- Reveal on scroll + "Como funciona" (scroll-driven, robusto) ----------
+     Dirigido por scroll (Lenis + nativo) em vez de IntersectionObserver — garante que
+     as entradas suaves e a timeline animem de forma confiável em qualquer ambiente. */
+  var revEls = Array.prototype.slice.call(document.querySelectorAll('[data-reveal]'));
+  // escalona irmãos do mesmo container (ex.: cards de um grid entram em sequência)
+  revEls.forEach(function (el) {
+    var p = el.parentNode; var i = p.__ri || 0; p.__ri = i + 1;
+    if (i > 0) el.style.transitionDelay = Math.min(i * 0.1, 0.55) + 's';
+  });
+  var howto = document.getElementById('howto');
+  function revealCheck() {
+    var trigger = window.innerHeight * 0.88;
+    for (var i = revEls.length - 1; i >= 0; i--) {
+      if (revEls[i].getBoundingClientRect().top < trigger) {
+        revEls[i].classList.add('in'); revEls.splice(i, 1); // revela uma vez e remove da lista
+      }
+    }
+    if (howto && !howto.classList.contains('in') && howto.getBoundingClientRect().top < trigger) {
+      howto.classList.add('in'); // dispara o "desenho" da timeline (1 → 3)
+    }
+  }
+
+  /* ---------- Parallax (faixas de imagem) ---------- */
+  var parEls = document.querySelectorAll('[data-parallax]');
+  function updateParallax() {
+    for (var i = 0; i < parEls.length; i++) {
+      var el = parEls[i], band = el.parentElement;
+      var r = band.getBoundingClientRect();
+      if (r.bottom < -40 || r.top > window.innerHeight + 40) continue;
+      var progress = (window.innerHeight - r.top) / (window.innerHeight + r.height); // 0..1
+      var shift = (progress - 0.5) * 14; // % de deslocamento
+      el.style.transform = 'translate3d(0,' + shift.toFixed(2) + '%,0)';
+    }
+  }
+
+  /* ---------- Lightbox (galerias) ----------
+     Suporta duas fontes: o "Projeto em Destaque" (accordion .pf-card, galeria única)
+     e o "Portfólio de Projetos" (.proj-card, uma galeria por projeto via data-gallery). */
+  var lb = document.getElementById('lightbox');
+  var lbImg = document.getElementById('lbImg');
+  var lbCap = document.getElementById('lbCaption');
+  var lbCount = document.getElementById('lbCounter');
+  var lbPrev = document.getElementById('lbPrev');
+  var lbNext = document.getElementById('lbNext');
+  var G = [];            // galeria atual: [{src, cap}]
+  var cur = 0;
+  var lastFocus = null;
+
+  function renderLb(i) {
+    if (!G.length) return;
+    cur = (i + G.length) % G.length;
+    lbImg.setAttribute('src', G[cur].src);
+    lbImg.setAttribute('alt', G[cur].cap || '');
+    lbCap.textContent = G[cur].cap || '';
+    lbCount.textContent = (cur + 1) + ' / ' + G.length;
+    var multi = G.length > 1;
+    lbPrev.style.display = multi ? '' : 'none';
+    lbNext.style.display = multi ? '' : 'none';
+    lbCount.style.display = multi ? '' : 'none';
+  }
+  function openLb(list, i) {
+    if (!lb || !list || !list.length) return;
+    G = list;
+    lastFocus = document.activeElement;
+    renderLb(i || 0);
+    lb.classList.add('open');
+    document.body.style.overflow = 'hidden'; // trava scroll + sinaliza p/ o momentum
+    stopMomentum();
+    document.getElementById('lbClose').focus();
+  }
+  function closeLb() {
+    lb.classList.remove('open');
+    document.body.style.overflow = '';
+    resumeMomentum(); // retoma o Lenis
+    if (lastFocus && lastFocus.focus) lastFocus.focus();
+  }
+
+  // guarda: só liga a lightbox nas páginas que a possuem (index) — evita erro nas subpáginas
+  if (lb) {
+    // (A) Projeto em destaque — accordion .pf-card (uma galeria compartilhada)
+    var pfCards = Array.prototype.slice.call(document.querySelectorAll('.pf-card'));
+    var pfGallery = pfCards.map(function (c) {
+      var img = c.querySelector('img');
+      return { src: img.getAttribute('src'), cap: img.getAttribute('alt') };
+    });
+    // rótulo vertical do accordion (estado recolhido) — gerado a partir do título
+    pfCards.forEach(function (c) {
+      if (!c.querySelector('.pf-vlabel')) {
+        var t = c.querySelector('.pf-title');
+        if (t) {
+          var v = document.createElement('span');
+          v.className = 'pf-vlabel';
+          v.setAttribute('aria-hidden', 'true');
+          v.textContent = t.textContent;
+          c.appendChild(v);
+        }
+      }
+      c.addEventListener('click', function () {
+        openLb(pfGallery, parseInt(c.getAttribute('data-index'), 10) || 0);
+      });
+    });
+
+    // (B) Portfólio de projetos — .proj-card (galeria própria por projeto)
+    Array.prototype.slice.call(document.querySelectorAll('.proj-card')).forEach(function (c) {
+      var title = c.getAttribute('data-title') || '';
+      var list = (c.getAttribute('data-gallery') || '').split('||').filter(Boolean).map(function (src) {
+        return { src: src, cap: title };
+      });
+      c.addEventListener('click', function () { openLb(list, 0); });
+    });
+
+    document.getElementById('lbClose').addEventListener('click', closeLb);
+    lbPrev.addEventListener('click', function () { renderLb(cur - 1); });
+    lbNext.addEventListener('click', function () { renderLb(cur + 1); });
+    lb.addEventListener('click', function (e) { if (e.target === lb) closeLb(); });
+    document.addEventListener('keydown', function (e) {
+      if (!lb.classList.contains('open')) return;
+      if (e.key === 'Escape') closeLb();
+      else if (e.key === 'ArrowLeft') renderLb(cur - 1);
+      else if (e.key === 'ArrowRight') renderLb(cur + 1);
+    });
+  }
+
+  /* ---------- Filtro do portfólio de projetos ---------- */
+  (function () {
+    var chips = Array.prototype.slice.call(document.querySelectorAll('.proj-chip'));
+    var grid = document.getElementById('projGrid');
+    if (!chips.length || !grid) return;
+    var empty = document.getElementById('projEmpty');
+    var projCards = Array.prototype.slice.call(grid.querySelectorAll('.proj-card'));
+    function applyFilter(f) {
+      var shown = 0;
+      projCards.forEach(function (c) {
+        var match = (f === 'all' || c.getAttribute('data-cat') === f);
+        c.classList.toggle('is-hidden', !match);
+        if (match) { c.classList.add('in'); shown++; } // garante visibilidade após interação
+      });
+      if (empty) empty.hidden = shown !== 0;
+    }
+    chips.forEach(function (chip) {
+      chip.addEventListener('click', function () {
+        chips.forEach(function (x) { x.classList.remove('is-active'); x.setAttribute('aria-pressed', 'false'); });
+        chip.classList.add('is-active');
+        chip.setAttribute('aria-pressed', 'true');
+        applyFilter(chip.getAttribute('data-filter'));
+      });
+    });
+  })();
+
+  /* ---------- Scroll listeners (header + parallax, throttle rAF) ---------- */
+  var ticking = false;
+  function onScroll() {
+    if (!ticking) {
+      window.requestAnimationFrame(function () {
+        updateHeader(); updateParallax(); revealCheck(); ticking = false;
+      });
+      ticking = true;
+    }
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('scroll', revealCheck, { passive: true }); // direto (não depende de rAF)
+  window.addEventListener('resize', function () { updateParallax(); revealCheck(); }, { passive: true });
+  updateParallax();
+  revealCheck();
+  window.addEventListener('load', revealCheck);
+
+  /* ---------- Smooth scroll premium (Lenis) ---------- */
+  var lenis = null;
+  var stopMomentum = function () {};
+  var resumeMomentum = function () {};
+  if (window.Lenis) {
+    lenis = new window.Lenis({
+      duration: 1.4,   // PESO DO SCROLL: aumente p/ mais "delay" (ex.: 2.0) ou diminua p/ mais leve (ex.: 1.0)
+      easing: function (t) { return Math.min(1, 1.001 - Math.pow(2, -10 * t)); },
+      wheelMultiplier: 1,
+      touchMultiplier: 2,
+      smoothWheel: true // suave no mouse; toque permanece nativo (padrão do Lenis)
+    });
+    (function lenisRaf(time) { lenis.raf(time); window.requestAnimationFrame(lenisRaf); })(0);
+    window.__lenis = lenis; // acesso p/ debug/ajuste fino
+    stopMomentum = function () { lenis.stop(); };
+    resumeMomentum = function () { lenis.start(); };
+    // mantém header/parallax em sincronia com o Lenis
+    lenis.on('scroll', function () { updateHeader(); updateParallax(); revealCheck(); });
+  }
+
+  /* ---------- Navegação por âncora (coesa com o Lenis) ---------- */
+  var NAV_OFFSET = 82;
+  document.querySelectorAll('a[href^="#"]').forEach(function (a) {
+    a.addEventListener('click', function (e) {
+      var id = a.getAttribute('href');
+      if (!id || id.length < 2) return;
+      var el = document.querySelector(id);
+      if (!el) return;
+      e.preventDefault();
+      closeNav();
+      if (lenis) lenis.scrollTo(el, { offset: -NAV_OFFSET, duration: 1.6 });
+      else window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - NAV_OFFSET, behavior: 'smooth' });
+    });
+  });
+
+  /* ---------- Cookie banner (LGPD) ---------- */
+  var cookie = document.getElementById('cookie');
+  var CK = 'ifx_cookie_consent';
+  function pushConsent(v) {
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({ event: 'cookie_consent', consent: v }); // tags respeitam a LGPD
+  }
+  function showCookie() { if (cookie) setTimeout(function () { cookie.classList.add('show'); }, 1200); }
+  function decide(v) {
+    try { localStorage.setItem(CK, v); } catch (e) {}
+    if (cookie) cookie.classList.remove('show');
+    pushConsent(v);
+  }
+  try {
+    var saved = localStorage.getItem(CK);
+    if (saved) pushConsent(saved); else showCookie();
+  } catch (e) { showCookie(); }
+  var ca = document.getElementById('cookieAccept'), cr = document.getElementById('cookieReject');
+  if (ca) ca.addEventListener('click', function () { decide('accepted'); });
+  if (cr) cr.addEventListener('click', function () { decide('rejected'); });
+
+})();

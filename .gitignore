@@ -1,0 +1,35 @@
+# ── BuildV: o repo versiona SÓ o entregável de deploy (Site/) + estado ──
+# Material-fonte fica local + Google Drive, fora do git:
+_raw/
+imagens/
+Marca/
+Copys/
+design-system/
+site antigo/
+brief-pack.md
+
+# ── Segredos — NUNCA versionar ──
+**/db-config.php
+*.env
+.env
+.env.*
+secrets*
+*.key
+*.pem
+
+# ── Dependências / build / OS ──
+node_modules/
+.DS_Store
+Thumbs.db
+desktop.ini
+*.log
+
+# ── Uploads de currículos (não versionar conteúdo, manter a pasta protegida) ──
+Site/php/uploads/*
+!Site/php/uploads/.htaccess
+
+# ── Tooling local ──
+.claude/
+.preview-cache/
+scripts_img.py
+preview-server.js
