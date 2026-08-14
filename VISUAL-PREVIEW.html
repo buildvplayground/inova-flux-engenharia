@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Preview Visual — LPs Sucesso em Vendas</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Sofia Pro', -apple-system, sans-serif;
+      background: #f5f5f5;
+      color: #1a202c;
+      line-height: 1.7;
+    }
+
+    .container { max-width: 1200px; margin: 0 auto; padding: 40px 20px; }
+
+    h1 {
+      font-family: 'Brandon Grotesque', sans-serif;
+      font-size: 48px;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+      letter-spacing: -0.02em;
+    }
+
+    .subtitle {
+      font-size: 18px;
+      color: #6b7280;
+      margin-bottom: 48px;
+      font-weight: 500;
+    }
+
+    .section-preview {
+      margin-bottom: 60px;
+      background: white;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    }
+
+    .preview-header {
+      background: linear-gradient(135deg, #171C24 0%, #1a1f2b 100%);
+      color: white;
+      padding: 32px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .preview-header h2 {
+      font-family: 'Brandon Grotesque', sans-serif;
+      font-size: 24px;
+      text-transform: uppercase;
+      letter-spacing: -0.015em;
+      margin: 0;
+    }
+
+    .preview-header .tag {
+      background: #BDFF63;
+      color: #1a202c;
+      padding: 6px 12px;
+      border-radius: 4px;
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .preview-content {
+      padding: 40px;
+    }
+
+    .hero-preview {
+      background: linear-gradient(110deg, rgba(23,28,36,0.96) 0%, rgba(23,28,36,0.85) 35%, rgba(23,28,36,0.4) 100%);
+      color: white;
+      padding: 80px 40px;
+      border-radius: 4px;
+      min-height: 400px;
+      display: flex;
+      align-items: center;
+    }
+
+    .hero-preview h3 {
+      font-family: 'Brandon Grotesque', sans-serif;
+      font-size: 48px;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+      letter-spacing: -0.02em;
+    }
+
+    .hero-preview p {
+      font-size: 18px;
+      color: rgba(255,255,255,0.85);
+      max-width: 600px;
+      line-height: 1.65;
+    }
+
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    .card {
+      padding: 28px;
+      border: 1px solid rgba(0,0,0,0.08);
+      border-radius: 4px;
+      position: relative;
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 3px;
+      height: 100%;
+      background: #BDFF63;
+      border-radius: 3px 0 0 3px;
+    }
+
+    .card h4 {
+      font-family: 'Brandon Grotesque', sans-serif;
+      font-size: 16px;
+      margin-bottom: 10px;
+      text-transform: none;
+      font-weight: 700;
+    }
+
+    .card p {
+      font-size: 14px;
+      color: #6b7280;
+      line-height: 1.6;
+    }
+
+    .dark-section {
+      background: #171C24;
+      color: white;
+      padding: 40px;
+      border-radius: 4px;
+      margin: 20px 0;
+    }
+
+    .dark-section h3 {
+      font-family: 'Brandon Grotesque', sans-serif;
+      font-size: 24px;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+      color: #BDFF63;
+    }
+
+    .dark-section p {
+      color: rgba(255,255,255,0.8);
+      line-height: 1.7;
+    }
+
+    .button {
+      display: inline-block;
+      padding: 16px 32px;
+      background: #BDFF63;
+      color: #1a202c;
+      font-family: 'Brandon Grotesque', sans-serif;
+      font-weight: 800;
+      text-transform: uppercase;
+      font-size: 14px;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.25s cubic-bezier(0.16, 0.84, 0.28, 1);
+      border: none;
+      letter-spacing: 0.03em;
+    }
+
+    .button:hover {
+      background: #D3FF96;
+      transform: translateY(-2px);
+      box-shadow: 0 12px 32px rgba(189, 255, 99, 0.25);
+    }
+
+    .color-palette {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+      margin: 40px 0;
+    }
+
+    .color-box {
+      border-radius: 4px;
+      padding: 20px;
+      text-align: center;
+      color: white;
+      font-weight: 700;
+    }
+
+    .color-primary { background: #BDFF63; color: #1a202c; }
+    .color-light { background: #D3FF96; color: #1a202c; }
+    .color-dark { background: #171C24; }
+    .color-white { background: white; color: #1a202c; border: 1px solid #e5e7eb; }
+
+    .specs {
+      background: #f9fafb;
+      padding: 20px;
+      border-radius: 4px;
+      margin: 20px 0;
+      font-size: 14px;
+      font-family: 'Courier New', monospace;
+      color: #374151;
+    }
+
+    .faq-item {
+      border-bottom: 1px solid rgba(0,0,0,0.08);
+      padding: 16px 0;
+    }
+
+    .faq-item:last-child {
+      border-bottom: none;
+    }
+
+    .faq-q {
+      font-family: 'Brandon Grotesque', sans-serif;
+      font-weight: 700;
+      color: #1a202c;
+      cursor: pointer;
+      font-size: 16px;
+      text-transform: none;
+    }
+
+    @media (max-width: 960px) {
+      .cards-grid { grid-template-columns: repeat(2, 1fr); }
+      .color-palette { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (max-width: 600px) {
+      h1 { font-size: 32px; }
+      .cards-grid { grid-template-columns: 1fr; }
+      .color-palette { grid-template-columns: 1fr; }
+      .preview-header { flex-direction: column; gap: 16px; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🎨 Preview Visual — LPs Sucesso em Vendas v2.0</h1>
+    <p class="subtitle">Visualização interativa do novo design com alternância white/dark e gradientes verdes</p>
+
+    <!-- PALETA DE CORES -->
+    <div class="section-preview">
+      <div class="preview-header">
+        <h2>Paleta de Cores</h2>
+        <span class="tag">Design System</span>
+      </div>
+      <div class="preview-content">
+        <div class="color-palette">
+          <div class="color-box color-primary">
+            <div>#BDFF63</div>
+            <div style="font-size: 12px; margin-top: 8px;">Verde Neon<br/>Primária</div>
+          </div>
+          <div class="color-box color-light">
+            <div>#D3FF96</div>
+            <div style="font-size: 12px; margin-top: 8px;">Verde Claro<br/>Secundária</div>
+          </div>
+          <div class="color-box color-dark">
+            <div>#171C24</div>
+            <div style="font-size: 12px; margin-top: 8px;">Azul Escuro<br/>Fundo</div>
+          </div>
+          <div class="color-box color-white">
+            <div>#ffffff</div>
+            <div style="font-size: 12px; margin-top: 8px;">Branco<br/>Fundo</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- HERO SECTION -->
+    <div class="section-preview">
+      <div class="preview-header">
+        <h2>1. Hero Section</h2>
+        <span class="tag">Full Width + Overlay</span>
+      </div>
+      <div class="preview-content">
+        <div class="hero-preview">
+          <div>
+            <div style="font-family: 'Brandon Grotesque', sans-serif; font-size: 12px; text-transform: uppercase; letter-spacing: 0.2em; color: #BDFF63; margin-bottom: 16px;">Análise Comercial</div>
+            <h3>Análise Comercial que troca achismo por evidência<span style="color: #BDFF63;">_</span></h3>
+            <p>A gente analisa estratégia, processo, tecnologia, pessoas e indicadores da sua operação e devolve as prioridades que sustentam a próxima decisão.</p>
+            <div style="margin-top: 28px;">
+              <button class="button">Solicitar análise gratuita</button>
+            </div>
+          </div>
+        </div>
+        <div class="specs">
+Min-height: 100vh | Padding top: 120px | Overlay gradient: 110deg | Image opacity: 35%
+        </div>
+      </div>
+    </div>
+
+    <!-- IDENTIFICAÇÃO -->
+    <div class="section-preview">
+      <div class="preview-header">
+        <h2>2. Identificação da Operação</h2>
+        <span class="tag">White Background</span>
+      </div>
+      <div class="preview-content">
+        <h3 style="font-family: 'Brandon Grotesque', sans-serif; font-size: 28px; text-transform: uppercase; margin-bottom: 8px; margin-top: 0;">Quanto maior a operação, mais fácil o problema se esconder<span style="color: #BDFF63;">_</span></h3>
+        <p style="color: #6b7280; margin-bottom: 32px;">Seção de cards com tint verde quando em fundo escuro</p>
+        <div class="cards-grid">
+          <div class="card">
+            <h4>Dispersão de performance</h4>
+            <p>Filiais e regionais com resultados muito distantes entre si.</p>
+          </div>
+          <div class="card">
+            <h4>Rede indireta reativa</h4>
+            <p>Representantes decidindo sozinhos sem padrão comum.</p>
+          </div>
+          <div class="card">
+            <h4>CRM que não virou gestão</h4>
+            <p>Ferramenta existe mas liderança decide por sensação.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- REPOSICIONAMENTO -->
+    <div class="section-preview">
+      <div class="preview-header">
+        <h2>3. Reposicionamento</h2>
+        <span class="tag">Dark Background</span>
+      </div>
+      <div class="preview-content">
+        <div class="dark-section">
+          <h3>Custo da Decisão</h3>
+          <p style="margin-bottom: 16px;">Em operação grande, decidir por hipótese sai caro. Trocar o CRM, refazer a política de incentivo, ampliar o time. São decisões de orçamento alto.</p>
+          <p style="margin-bottom: 16px;">Quando a operação tem dezenas de unidades, o erro não fica contido. Ele se multiplica por cada filial que executa a diretriz errada.</p>
+          <p style="color: #BDFF63; font-weight: 600;">A análise comercial inverte essa ordem. Primeiro a evidência, depois o investimento.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- CARDS ALTERNADOS -->
+    <div class="section-preview">
+      <div class="preview-header">
+        <h2>4. Timeline — 5 Frentes</h2>
+        <span class="tag">White Background</span>
+      </div>
+      <div class="preview-content">
+        <div style="max-width: 100%;">
+          <div style="display: flex; gap: 28px; padding: 24px 0; border-bottom: 1px solid rgba(0,0,0,0.08);">
+            <div style="flex: 0 0 60px; width: 60px; height: 60px; background: rgba(189,255,99,.06); border: 2.5px solid #BDFF63; display: flex; align-items: center; justify-content: center; font-family: 'Brandon Grotesque', sans-serif; font-weight: 800; font-size: 24px; color: #BDFF63; border-radius: 2px;">1</div>
+            <div>
+              <h4 style="font-family: 'Brandon Grotesque', sans-serif; margin: 0 0 6px 0;">Estratégia comercial</h4>
+              <p style="color: #6b7280; margin: 0;">Foco de mercado, priorização de canais e coerência com capacidade real.</p>
+            </div>
+          </div>
+          <div style="display: flex; gap: 28px; padding: 24px 0;">
+            <div style="flex: 0 0 60px; width: 60px; height: 60px; background: rgba(189,255,99,.06); border: 2.5px solid #BDFF63; display: flex; align-items: center; justify-content: center; font-family: 'Brandon Grotesque', sans-serif; font-weight: 800; font-size: 24px; color: #BDFF63; border-radius: 2px;">2</div>
+            <div>
+              <h4 style="font-family: 'Brandon Grotesque', sans-serif; margin: 0 0 6px 0;">Processo comercial</h4>
+              <p style="color: #6b7280; margin: 0;">Etapas de prospecção, venda e padrão de abordagem do time.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FAQ -->
+    <div class="section-preview">
+      <div class="preview-header">
+        <h2>9. FAQ Accordion</h2>
+        <span class="tag">Dark Background</span>
+      </div>
+      <div class="preview-content">
+        <div class="dark-section" style="background: transparent; color: inherit;">
+          <div class="faq-item">
+            <div class="faq-q">A análise comercial é realmente gratuita?</div>
+            <p style="color: #6b7280; margin-top: 12px;">Sim. A análise inicial não tem custo e não gera compromisso. Ela existe porque a gente precisa entender sua operação antes de propor qualquer caminho.</p>
+          </div>
+          <div class="faq-item">
+            <div class="faq-q">Quanto tempo leva a análise?</div>
+            <p style="color: #6b7280; margin-top: 12px;">Depende do porte da operação e número de unidades. No contato inicial a gente dimensiona o escopo e apresenta um cronograma.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- BOTÃO CTA -->
+    <div class="section-preview">
+      <div class="preview-header">
+        <h2>Botões CTA</h2>
+        <span class="tag">Interatividade</span>
+      </div>
+      <div class="preview-content">
+        <div style="display: flex; gap: 16px; flex-wrap: wrap;">
+          <button class="button">Solicitar análise gratuita</button>
+          <button style="padding: 16px 32px; background: transparent; border: 2px solid #BDFF63; color: #BDFF63; font-family: 'Brandon Grotesque', sans-serif; font-weight: 800; text-transform: uppercase; font-size: 14px; border-radius: 4px; cursor: pointer; letter-spacing: 0.03em;">Link Secundário</button>
+        </div>
+        <div class="specs">
+Padding: 16px 32px | Border-radius: 4px | Hover: shadow + translateY(-2px)<br/>
+Background: #BDFF63 | Hover: #D3FF96 | Shadow: rgba(189,255,99,.25)
+        </div>
+      </div>
+    </div>
+
+    <!-- RESUMO -->
+    <div class="section-preview">
+      <div class="preview-header">
+        <h2>Resumo do Design</h2>
+        <span class="tag">v2.0</span>
+      </div>
+      <div class="preview-content">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+          <div>
+            <h4 style="color: #BDFF63; margin-bottom: 10px;">✅ Implementado</h4>
+            <ul style="list-style: none; padding: 0; color: #6b7280;">
+              <li>✓ Alternância white/dark</li>
+              <li>✓ Gradientes verdes</li>
+              <li>✓ Imagens full width</li>
+              <li>✓ Design clean</li>
+              <li>✓ 100% responsivo</li>
+              <li>✓ WCAG AA+</li>
+            </ul>
+          </div>
+          <div>
+            <h4 style="color: #BDFF63; margin-bottom: 10px;">📦 Entregáveis</h4>
+            <ul style="list-style: none; padding: 0; color: #6b7280;">
+              <li>✓ 2 HTMLs atualizados</li>
+              <li>✓ CSS novo (17KB)</li>
+              <li>✓ Documentação</li>
+              <li>✓ Preview visual</li>
+              <li>✓ Guia de imagens</li>
+              <li>✓ A/B Testing ready</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

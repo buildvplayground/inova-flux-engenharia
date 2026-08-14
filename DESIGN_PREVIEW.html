@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Preview — Redesign LPs Sucesso em Vendas</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #0f1218;
+      color: #ffffff;
+      line-height: 1.6;
+      padding: 40px 20px;
+    }
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    h1 {
+      font-size: 48px;
+      margin-bottom: 12px;
+      font-weight: 900;
+      letter-spacing: -0.02em;
+      font-family: 'Montserrat', sans-serif;
+      text-transform: uppercase;
+    }
+    .subtitle {
+      font-size: 18px;
+      color: #d1d5db;
+      margin-bottom: 48px;
+      font-weight: 500;
+    }
+
+    /* Color Palette */
+    .palette {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+      margin-bottom: 80px;
+    }
+    .color-card {
+      border: 1px solid rgba(189,255,99,.15);
+      border-radius: 4px;
+      overflow: hidden;
+      background: rgba(189,255,99,.04);
+    }
+    .color-sample {
+      width: 100%;
+      height: 140px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 14px;
+      color: #0f1218;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .color-info {
+      padding: 20px;
+    }
+    .color-info h3 {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
+    }
+    .color-code {
+      font-family: 'Courier New', monospace;
+      font-size: 14px;
+      color: #9ca3af;
+      margin-bottom: 4px;
+    }
+    .color-usage {
+      font-size: 13px;
+      color: #9ca3af;
+    }
+
+    /* Features Grid */
+    .features-section {
+      margin-bottom: 80px;
+    }
+    .section-title {
+      font-size: 32px;
+      font-weight: 900;
+      font-family: 'Montserrat', sans-serif;
+      text-transform: uppercase;
+      margin-bottom: 40px;
+      letter-spacing: -0.02em;
+    }
+    .features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 24px;
+    }
+    .feature {
+      background: rgba(189,255,99,.04);
+      border: 1px solid rgba(189,255,99,.15);
+      border-left: 3px solid #BDFF63;
+      padding: 28px;
+      border-radius: 4px;
+    }
+    .feature h3 {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 12px;
+      color: #BDFF63;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .feature p {
+      color: #d1d5db;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    /* Buttons Preview */
+    .buttons-section {
+      margin-bottom: 80px;
+    }
+    .buttons {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 16px 32px;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800;
+      font-size: 14px;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      border: 2px solid transparent;
+      border-radius: 3px;
+      cursor: pointer;
+      transition: all 0.25s cubic-bezier(0.16, 0.84, 0.28, 1);
+      text-decoration: none;
+    }
+    .btn-cta {
+      background: #BDFF63;
+      color: #0a0e16;
+      border-color: #BDFF63;
+    }
+    .btn-cta:hover {
+      background: #D3FF96;
+      transform: translateY(-2px);
+      box-shadow: 0 12px 32px rgba(189,255,99,.2);
+    }
+    .btn-ghost {
+      background: transparent;
+      color: #ffffff;
+      border-color: rgba(216,216,216,.2);
+    }
+    .btn-ghost:hover {
+      border-color: #BDFF63;
+      color: #BDFF63;
+      background: rgba(189,255,99,.06);
+    }
+
+    /* Typography Samples */
+    .typography {
+      margin-bottom: 80px;
+    }
+    .typo-sample {
+      margin-bottom: 32px;
+    }
+    .typo-sample h2 {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 900;
+      font-size: 28px;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+      letter-spacing: -0.02em;
+    }
+    .typo-sample .label {
+      font-size: 12px;
+      color: #BDFF63;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      margin-bottom: 8px;
+      font-weight: 700;
+    }
+    .typo-sample p {
+      color: #d1d5db;
+      font-size: 16px;
+      line-height: 1.65;
+    }
+
+    /* Comparison Table */
+    .comparison {
+      border-collapse: collapse;
+      width: 100%;
+      margin-bottom: 80px;
+    }
+    .comparison th, .comparison td {
+      padding: 16px 20px;
+      text-align: left;
+      border-bottom: 1px solid rgba(189,255,99,.15);
+    }
+    .comparison th {
+      background: rgba(189,255,99,.08);
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 14px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .comparison tr:hover {
+      background: rgba(189,255,99,.04);
+    }
+    .before {
+      color: #9ca3af;
+    }
+    .after {
+      color: #BDFF63;
+      font-weight: 600;
+    }
+
+    /* Footer */
+    .footer {
+      text-align: center;
+      padding-top: 40px;
+      border-top: 1px solid rgba(189,255,99,.15);
+      color: #9ca3af;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🎨 Redesign — LPs Sucesso em Vendas</h1>
+    <p class="subtitle">Redesign moderno com paleta de cores vibrante mantendo 100% do conteúdo original</p>
+
+    <!-- Paleta de Cores -->
+    <section class="features-section">
+      <h2 class="section-title">Nova Paleta de Cores</h2>
+      <div class="palette">
+        <div class="color-card">
+          <div class="color-sample" style="background: #BDFF63;">Cor Principal</div>
+          <div class="color-info">
+            <h3>Green Neon</h3>
+            <div class="color-code">#BDFF63</div>
+            <div class="color-usage">Principal, CTAs, Accents</div>
+          </div>
+        </div>
+
+        <div class="color-card">
+          <div class="color-sample" style="background: #D3FF96;">Cor Secundária</div>
+          <div class="color-info">
+            <h3>Green Light</h3>
+            <div class="color-code">#D3FF96</div>
+            <div class="color-usage">Hover, Variações</div>
+          </div>
+        </div>
+
+        <div class="color-card">
+          <div class="color-sample" style="background: #171C24;">Fundo Escuro</div>
+          <div class="color-info">
+            <h3>Dark Navy</h3>
+            <div class="color-code">#171C24</div>
+            <div class="color-usage">Background Principal</div>
+          </div>
+        </div>
+
+        <div class="color-card">
+          <div class="color-sample" style="background: #D8D8D8; color: #171C24;">Cinza</div>
+          <div class="color-info">
+            <h3>Light Gray</h3>
+            <div class="color-code">#D8D8D8</div>
+            <div class="color-usage">Texto Secundário</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Features -->
+    <section class="features-section">
+      <h2 class="section-title">Principais Mudanças</h2>
+      <div class="features">
+        <div class="feature">
+          <h3>✨ Cores Modernas</h3>
+          <p>Paleta vibrante com verde neon (#BDFF63) como cor principal, substituindo o azul anterior. Melhor contraste e identidade visual.</p>
+        </div>
+        <div class="feature">
+          <h3>🎯 Tipografia Refinada</h3>
+          <p>Headings maiores (até 78px), line-height aumentado (1.65), letter-spacing otimizado para melhor legibilidade.</p>
+        </div>
+        <div class="feature">
+          <h3>🎪 Efeitos Visuais</h3>
+          <p>Gradientes no hero e CTA final, box-shadows modernos, transições suavizadas com cubic-bezier customizado.</p>
+        </div>
+        <div class="feature">
+          <h3>🎨 Cards Elevados</h3>
+          <p>Cards com background tint verde, hover com elevação (6px), bordas arredondadas (4px), accents mais sutis.</p>
+        </div>
+        <div class="feature">
+          <h3>⚡ Spacing Aumentado</h3>
+          <p>Seções com padding de 100px (antes 92px), gaps entre elementos aumentados para melhor respiração visual.</p>
+        </div>
+        <div class="feature">
+          <h3>🔄 Responsividade Mantida</h3>
+          <p>Full responsiveness de 320px a 1440px preservado. Mobile menu atualizado com nova paleta.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Buttons -->
+    <section class="buttons-section">
+      <h2 class="section-title">Botões</h2>
+      <div class="buttons">
+        <button class="btn btn-cta">Solicitar análise gratuita</button>
+        <button class="btn btn-ghost">Link Secundário</button>
+      </div>
+    </section>
+
+    <!-- Tipografia -->
+    <section class="typography">
+      <h2 class="section-title">Tipografia</h2>
+
+      <div class="typo-sample">
+        <div class="label">Overline</div>
+        <h2>Análise Comercial</h2>
+        <p style="color: #BDFF63; font-size: 12px; text-transform: uppercase; letter-spacing: 0.18em;">Análise Comercial</p>
+      </div>
+
+      <div class="typo-sample">
+        <div class="label">Heading 1 (Hero)</div>
+        <h1 style="font-size: 48px;">Análise comercial que troca achismo por evidência</h1>
+      </div>
+
+      <div class="typo-sample">
+        <div class="label">Heading 2 (Seção)</div>
+        <h2 style="font-size: 36px;">Cinco frentes analisadas, uma leitura integrada</h2>
+      </div>
+
+      <div class="typo-sample">
+        <div class="label">Body Text</div>
+        <p>A gente analisa estratégia, processo, tecnologia, pessoas e indicadores da sua operação e devolve as prioridades que sustentam a próxima decisão.</p>
+      </div>
+
+      <div class="typo-sample">
+        <div class="label">Microcopy</div>
+        <p style="font-size: 13.5px; color: #9ca3af;">Análise gratuita conduzida por consultores sêniores, com escopo definido antes de começar.</p>
+      </div>
+    </section>
+
+    <!-- Comparação -->
+    <section class="features-section">
+      <h2 class="section-title">Comparativo</h2>
+      <table class="comparison">
+        <thead>
+          <tr>
+            <th>Elemento</th>
+            <th>Antes</th>
+            <th>Depois</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Cor Primária</td>
+            <td class="before">#1717FF (Azul)</td>
+            <td class="after">#BDFF63 (Verde Neon)</td>
+          </tr>
+          <tr>
+            <td>Hero Font Size</td>
+            <td class="before">clamp(38px, 6.4vw, 74px)</td>
+            <td class="after">clamp(42px, 7vw, 78px)</td>
+          </tr>
+          <tr>
+            <td>Section Padding</td>
+            <td class="before">92px</td>
+            <td class="after">100px</td>
+          </tr>
+          <tr>
+            <td>Card Hover</td>
+            <td class="before">translateY(-4px)</td>
+            <td class="after">translateY(-6px) + box-shadow</td>
+          </tr>
+          <tr>
+            <td>Border Radius</td>
+            <td class="before">0px (Nenhum)</td>
+            <td class="after">4px (Sutil)</td>
+          </tr>
+          <tr>
+            <td>Button Color</td>
+            <td class="before">#1717FF (Azul)</td>
+            <td class="after">#BDFF63 (Verde)</td>
+          </tr>
+          <tr>
+            <td>Line Height Body</td>
+            <td class="before">1.62</td>
+            <td class="after">1.65</td>
+          </tr>
+          <tr>
+            <td>Header Blur</td>
+            <td class="before">blur(9px)</td>
+            <td class="after">blur(12px)</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <div class="footer">
+      <p>✅ Design atualizado | 100% Copy preservada | 2 LPs incluídas</p>
+      <p>Status: Pronto para publicação | Data: 12 de Agosto de 2026</p>
+    </div>
+  </div>
+</body>
+</html>
