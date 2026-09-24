@@ -22,11 +22,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/styles.css">
 
-<!-- MERLIN -->
-<script src='https://scripts.gomerlin.com.br/merlin.js'></script>
+<!-- BuildV CRM — Chat flutuante -->
+<script src="https://app-crm.buildv.com.br/widget.js" data-widget="wid_47ecce6d9a8fedb538035c45caa10f50" data-api="https://crm-clients-api.buildv.com.br" async></script>
 <script>
-  Merlin.Popup.initFromSource("5919b336-dd4a-4b05-9ff0-1183dc526f3d");
-
   function waitForElm(selector) {
     return new Promise(function(resolve) {
       if (document.querySelector(selector)) {
@@ -42,13 +40,14 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     });
   }
 
-  waitForElm('.merlin-button').then(function() {
+  /* CTAs abrem o popup do chat (fallback: link do href se o widget não carregar) */
+  waitForElm('.bv-launcher').then(function() {
     for (var i = 1; i <= 15; i++) {
-      var el = document.getElementById('cta-merlin' + i);
+      var el = document.getElementById('cta-chat' + i);
       if (el) {
         el.addEventListener('click', function(e) {
           e.preventDefault();
-          document.querySelector('.merlin-button').click();
+          document.querySelector('.bv-launcher').click();
         });
       }
     }
@@ -68,7 +67,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </a>
     <nav class="nav mobile" style="transform:none">
       <ul class="nav-links"><li><a href="index.html">Início</a></li><li><a href="fornecedores.html">Fornecedores</a></li></ul>
-      <a id="cta-merlin1" class="btn nav-cta js-wa" data-wa-btn="orcamento" href="https://wa.me/5517996065834" target="_blank" rel="noopener">Solicitar orçamento</a>
+      <a id="cta-chat1" class="btn nav-cta js-wa" data-wa-btn="orcamento" href="https://wa.me/5517996065834" target="_blank" rel="noopener">Solicitar orçamento</a>
     </nav>
   </div>
 </header>
