@@ -43,13 +43,27 @@
     }, 250);
   }
 
-  document.addEventListener('click', function (e) {
-    var el = e.target.closest ? e.target.closest('[data-cta]') : null;
-    if (!el) return;
+  // gatilhos são <a> sem href (não ancoram em nada): devolve cursor e teclado
+  var st = document.createElement('style');
+  st.textContent = '[data-cta]{cursor:pointer}';
+  document.head.appendChild(st);
+
+  function trigger(e, el) {
     e.preventDefault();
     window.dataLayer = window.dataLayer || [];
     window.dataLayer.push({ event: 'cta_widget', cta_id: el.id || '', cta_origem: el.getAttribute('data-cta') || '' });
     openWidget();
+  }
+
+  document.addEventListener('click', function (e) {
+    var el = e.target.closest ? e.target.closest('[data-cta]') : null;
+    if (el) trigger(e, el);
+  }, true);
+
+  document.addEventListener('keydown', function (e) {
+    if (e.key !== 'Enter' && e.key !== ' ') return;
+    var el = e.target.closest ? e.target.closest('[data-cta]') : null;
+    if (el) trigger(e, el);
   }, true);
 
   window.abrirWidgetBuildV = openWidget;
