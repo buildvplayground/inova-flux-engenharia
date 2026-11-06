@@ -23,35 +23,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
 <!-- BuildV CRM — Chat flutuante -->
 <script src="https://app-crm.buildv.com.br/widget.js" data-widget="wid_47ecce6d9a8fedb538035c45caa10f50" data-api="https://crm-clients-api.buildv.com.br" async></script>
-<script>
-  function waitForElm(selector) {
-    return new Promise(function(resolve) {
-      if (document.querySelector(selector)) {
-        return resolve(document.querySelector(selector));
-      }
-      var observer = new MutationObserver(function() {
-        if (document.querySelector(selector)) {
-          resolve(document.querySelector(selector));
-          observer.disconnect();
-        }
-      });
-      observer.observe(document.documentElement, { childList: true, subtree: true });
-    });
-  }
-
-  /* CTAs abrem o popup do chat (fallback: link do href se o widget não carregar) */
-  waitForElm('.bv-launcher').then(function() {
-    for (var i = 1; i <= 15; i++) {
-      var el = document.getElementById('cta-chat' + i);
-      if (el) {
-        el.addEventListener('click', function(e) {
-          e.preventDefault();
-          document.querySelector('.bv-launcher').click();
-        });
-      }
-    }
-  });
-</script>
+<script src="js/cta-widget.js?v=1" defer></script>
 </head>
 <body>
 <!-- BuildV: GTM (noscript) -->
@@ -66,7 +38,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </a>
     <nav class="nav mobile" style="transform:none">
       <ul class="nav-links"><li><a href="index.html">Início</a></li><li><a href="politica-de-privacidade.html">Privacidade</a></li></ul>
-      <a id="cta-chat1" class="btn nav-cta js-wa" data-wa-btn="orcamento" href="https://wa.me/5517996065834" target="_blank" rel="noopener">Solicitar orçamento</a>
+      <a id="cta-chat1" class="btn nav-cta" data-cta="orcamento" href="#" role="button">Solicitar orçamento</a>
     </nav>
   </div>
 </header>
@@ -133,7 +105,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </footer>
 
 <script src="js/lenis.min.js"></script>
-<script src="js/app.js"></script>
+<script src="js/app.js?v=2"></script>
 <script>
 /* Envio assíncrono com feedback (progressivo — funciona só quando o backend PHP estiver no ar) */
 (function(){

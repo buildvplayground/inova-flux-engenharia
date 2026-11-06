@@ -4,20 +4,7 @@
 (function () {
   'use strict';
 
-  /* ---------- WhatsApp (número centralizado) ---------- */
-  var WA_NUMBER = '5517996065834'; // (17) 9 9606-5834 — trocar aqui se mudar
-  var WA_MSG = {
-    orcamento: 'Olá! Gostaria de solicitar um orçamento de engenharia com a Inova Flux.',
-    disciplinas: 'Olá! Gostaria de falar com um engenheiro sobre as disciplinas de projeto.',
-    default: 'Olá! Gostaria de mais informações sobre os serviços da Inova Flux.'
-  };
-  function waHref(key) {
-    var msg = WA_MSG[key] || WA_MSG.default;
-    return 'https://wa.me/' + WA_NUMBER + '?text=' + encodeURIComponent(msg);
-  }
-  document.querySelectorAll('.js-wa').forEach(function (el) {
-    el.setAttribute('href', waHref(el.getAttribute('data-wa-btn')));
-  });
+  /* CTAs: todo [data-cta] abre o chat do CRM BuildV (js/cta-widget.js) */
 
   /* ---------- Ano no footer ---------- */
   var yearEl = document.getElementById('year');
