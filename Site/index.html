@@ -35,35 +35,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
 <!-- BuildV CRM — Chat flutuante -->
 <script src="https://app-crm.buildv.com.br/widget.js" data-widget="wid_47ecce6d9a8fedb538035c45caa10f50" data-api="https://crm-clients-api.buildv.com.br" async></script>
-<script>
-  function waitForElm(selector) {
-    return new Promise(function(resolve) {
-      if (document.querySelector(selector)) {
-        return resolve(document.querySelector(selector));
-      }
-      var observer = new MutationObserver(function() {
-        if (document.querySelector(selector)) {
-          resolve(document.querySelector(selector));
-          observer.disconnect();
-        }
-      });
-      observer.observe(document.documentElement, { childList: true, subtree: true });
-    });
-  }
-
-  /* CTAs abrem o popup do chat (fallback: link do href se o widget não carregar) */
-  waitForElm('.bv-launcher').then(function() {
-    for (var i = 1; i <= 15; i++) {
-      var el = document.getElementById('cta-chat' + i);
-      if (el) {
-        el.addEventListener('click', function(e) {
-          e.preventDefault();
-          document.querySelector('.bv-launcher').click();
-        });
-      }
-    }
-  });
-</script>
+<script src="js/cta-widget.js?v=1" defer></script>
 </head>
 <body>
 <!-- BuildV: GTM (noscript) -->
@@ -88,7 +60,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <li><a href="#portfolio">Projetos</a></li>
         <li><a href="#contato">Contato</a></li>
       </ul>
-      <a id="cta-chat1" class="btn nav-cta js-wa" data-wa-btn="orcamento" href="https://wa.me/5517996065834" target="_blank" rel="noopener">Solicitar orçamento</a>
+      <a id="cta-chat1" class="btn nav-cta" data-cta="orcamento" href="#contato" role="button">Solicitar orçamento</a>
     </nav>
 
     <button class="burger" id="burger" aria-label="Abrir menu" aria-expanded="false" aria-controls="nav">
@@ -109,7 +81,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <h1>Da concepção ao comissionamento, <span class="accent">engenharia industrial completa.</span></h1>
     <p class="hero-sub">Soluções técnicas integradas para a indústria, com o rigor de quem entrega do estudo de viabilidade à entrega técnica final. A Inova Flux é o seu braço de engenharia externo, flexível e multidisciplinar.</p>
     <div class="hero-actions">
-      <a id="cta-chat2" class="btn btn--lg js-wa" data-wa-btn="orcamento" href="https://wa.me/5517996065834" target="_blank" rel="noopener">
+      <a id="cta-chat2" class="btn btn--lg" data-cta="orcamento" href="#contato" role="button">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
         Solicitar orçamento
       </a>
@@ -242,7 +214,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <div class="card card--cta" data-reveal>
         <h3 style="margin-bottom:.5rem">Precisa de mais de uma disciplina?</h3>
         <p style="margin-bottom:1.3rem">Integramos todas em um único ponto de contato técnico, do estudo ao comissionamento.</p>
-        <a id="cta-chat3" class="btn btn--light js-wa" data-wa-btn="disciplinas" href="https://wa.me/5517996065834" target="_blank" rel="noopener" style="align-self:flex-start">Falar com engenheiro</a>
+        <a id="cta-chat3" class="btn btn--light" data-cta="disciplinas" style="align-self:flex-start" href="#contato" role="button">Falar com engenheiro</a>
       </div>
     </div>
   </div>
@@ -632,11 +604,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <h3>Fale com a Inova Flux</h3>
         <p class="lead">Estamos prontos para ser o seu parceiro estratégico de engenharia. Descubra como transformar a eficiência e a competitividade dos seus projetos.</p>
         <ul class="contact-info">
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg><a class="js-wa" data-wa-btn="orcamento" href="https://wa.me/5517996065834" target="_blank" rel="noopener">(17) 9 9606-5834</a></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg><a data-cta="orcamento" href="#contato" role="button">(17) 9 9606-5834</a></li>
           <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 12-9 12s-9-5-9-12a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>Votuporanga – SP</li>
           <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 10h18"/></svg>CNPJ 61.749.654/0001-07</li>
         </ul>
-        <a id="cta-chat5" class="btn btn--light btn--lg js-wa" data-wa-btn="orcamento" href="https://wa.me/5517996065834" target="_blank" rel="noopener" style="width:100%;justify-content:center">
+        <a id="cta-chat5" class="btn btn--light btn--lg" data-cta="orcamento" style="width:100%;justify-content:center" href="#contato" role="button">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
           Solicitar orçamento
         </a>
@@ -668,7 +640,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <div>
         <h4>Contato</h4>
         <ul class="footer-contact">
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg><a class="js-wa" data-wa-btn="orcamento" href="https://wa.me/5517996065834" target="_blank" rel="noopener">(17) 9 9606-5834</a></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg><a data-cta="orcamento" href="#contato" role="button">(17) 9 9606-5834</a></li>
           <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 12-9 12s-9-5-9-12a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>Votuporanga – SP</li>
           <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 10h18"/></svg>CNPJ 61.749.654/0001-07</li>
         </ul>
@@ -705,7 +677,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
 <script src="js/lenis.min.js"></script>
-<script src="js/app.js"></script>
+<script src="js/app.js?v=2"></script>
 
 
 </body>
